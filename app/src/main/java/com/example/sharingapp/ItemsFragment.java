@@ -28,7 +28,6 @@ public abstract class ItemsFragment extends Fragment implements Observer {
     private ListView listView;
     private ArrayAdapter<Item> adapter;
     private List<Item> selectedItems;
-    private LayoutInflater inflater;
     private ViewGroup container;
     private Context context;
     private Fragment fragment;
@@ -41,14 +40,13 @@ public abstract class ItemsFragment extends Fragment implements Observer {
         itemListController.getRemoteItems(); // Call to update() suppressed
         update = true; // Future calls to update() permitted
 
-        this.inflater = inflater;
         this.container = container;
 
         return rootView;
     }
 
     public void setVariables(int resource, int id ) {
-        rootView = inflater.inflate(resource, container, false);
+        rootView = LayoutInflater.from(context).inflate(resource, container, false);
         listView = rootView.findViewById(id);
         selectedItems = filterItems();
     }
@@ -64,24 +62,26 @@ public abstract class ItemsFragment extends Fragment implements Observer {
     }
 
     public void setFragmentOnItemLongClickListener(){
-        // When item is long clicked, this starts EditItemActivity
-        listView.setOnItemLongClickListener(new android.widget.AdapterView.OnItemLongClickListener() {
+        if(listView != null) {
+            // When item is long clicked, this starts EditItemActivity
+            listView.setOnItemLongClickListener(new android.widget.AdapterView.OnItemLongClickListener() {
 
-            @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int pos, long id) {
-                Item item = adapter.getItem(pos);
+                @Override
+                public boolean onItemLongClick(AdapterView<?> parent, View view, int pos, long id) {
+                    Item item = adapter.getItem(pos);
 
-                int metaPos = itemListController.getIndex(item);
-                if (metaPos >= 0) {
+                    int metaPos = itemListController.getIndex(item);
+                    if (metaPos >= 0) {
 
-                    Intent edit = new Intent(context, EditItemActivity.class);
-                    edit.putExtra(Constants.USER_ID, userId);
-                    edit.putExtra("position", metaPos);
-                    startActivity(edit);
+                        Intent edit = new Intent(context, EditItemActivity.class);
+                        edit.putExtra(Constants.USER_ID, userId);
+                        edit.putExtra("position", metaPos);
+                        startActivity(edit);
+                    }
+                    return true;
                 }
-                return true;
-            }
-        });
+            });
+        }
     }
 
     /**
@@ -106,7 +106,9 @@ public abstract class ItemsFragment extends Fragment implements Observer {
         if (update) {
             selectedItems = filterItems(); // Ensure items are filtered
             adapter = new ItemFragmentAdapter(context, selectedItems, fragment);
-            listView.setAdapter(adapter);
+            if(listView != null) {
+                listView.setAdapter(adapter);
+            }
             adapter.notifyDataSetChanged();
         }
     }

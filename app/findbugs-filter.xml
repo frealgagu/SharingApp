@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FindBugsFilter>
+    <Match>
+        <Class name="~android.support.*"/>
+    </Match>
+    <Match>
+        <Class name="~com.example.sharingapp.R.*"/>
+    </Match>
+    <Match>
+        <Class name="~com.example.sharingapp.test.R.*"/>
+    </Match>
+</FindBugsFilter>

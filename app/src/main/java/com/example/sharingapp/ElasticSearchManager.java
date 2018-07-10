@@ -306,7 +306,7 @@ public class ElasticSearchManager {
     }
 
     // If no client, add one
-    private static void verifyConfig() {
+    private synchronized static void verifyConfig() {
         if(client == null) {
             DroidClientConfig.Builder builder = new DroidClientConfig.Builder(SERVER);
             DroidClientConfig config = builder.build();
