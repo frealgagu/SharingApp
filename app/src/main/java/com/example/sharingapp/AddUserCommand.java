@@ -1,5 +1,7 @@
 package com.example.sharingapp;
 
+import android.util.Log;
+
 import java.util.concurrent.ExecutionException;
 
 /**
@@ -26,8 +28,8 @@ public class AddUserCommand extends Command {
             if(addUserTask.get()) {
                 super.setIsExecuted(true);
             }
-        } catch (InterruptedException | ExecutionException e) {
-            e.printStackTrace();
+        } catch (InterruptedException | ExecutionException ex) {
+            Log.e("ADD_USER_COMMAND", ex.getMessage(), ex);
             super.setIsExecuted(false);
         }
     }

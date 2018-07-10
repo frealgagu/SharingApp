@@ -61,9 +61,8 @@ public class ElasticSearchManager {
                 } else {
                     Log.i("ELASTICSEARCH", "No items found");
                 }
-            } catch (IOException e) {
-                Log.i("ELASTICSEARCH", "Item search failed");
-                e.printStackTrace();
+            } catch (IOException ex) {
+                Log.e("ELASTICSEARCH", "Item search failed", ex);
             }
 
             return items;
@@ -88,13 +87,13 @@ public class ElasticSearchManager {
                 DocumentResult execute = client.execute(index);
                 if(execute.isSucceeded()) {
                     Log.i("ELASTICSEARCH", "Add item was successful");
-                    Log.i("ADDED ITEM", id);
+                    Log.i("************ ADDED ITEM", id);
                     success = true;
                 } else {
                     Log.e("ELASTICSEARCH", "Add item failed");
                 }
-            } catch (IOException e) {
-                e.printStackTrace();
+            } catch (IOException ex) {
+                Log.e("ELASTICSEARCH", ex.getMessage(), ex);
             }
 
             return success;
@@ -120,8 +119,8 @@ public class ElasticSearchManager {
                 } else {
                     Log.e("ELASTICSEARCH", "Delete item failed");
                 }
-            } catch (IOException e) {
-                e.printStackTrace();
+            } catch (IOException ex) {
+                Log.e("ELASTICSEARCH", ex.getMessage(), ex);
             }
 
             return success;
@@ -151,9 +150,8 @@ public class ElasticSearchManager {
                 } else {
                     Log.i("ELASTICSEARCH", "No users found");
                 }
-            } catch (IOException e) {
-                Log.i("ELASTICSEARCH", "User search failed");
-                e.printStackTrace();
+            } catch (IOException ex) {
+                Log.e("ELASTICSEARCH", "User search failed", ex);
             }
 
             return users;
@@ -178,13 +176,13 @@ public class ElasticSearchManager {
                 DocumentResult execute = client.execute(index);
                 if(execute.isSucceeded()) {
                     Log.i("ELASTICSEARCH", "User was successfully added");
-                    Log.i("ADDED USER", id);
+                    Log.i("************ ADDED USER", id);
                     success = true;
                 } else {
                     Log.e("ELASTICSEARCH", "User failed to be added");
                 }
-            } catch (IOException e) {
-                e.printStackTrace();
+            } catch (IOException ex) {
+                Log.e("ELASTICSEARCH", ex.getMessage(), ex);
             }
 
             return success;
@@ -210,8 +208,8 @@ public class ElasticSearchManager {
                 } else {
                     Log.e("ELASTICSEARCH", "User delete failed");
                 }
-            } catch (IOException e) {
-                e.printStackTrace();
+            } catch (IOException ex) {
+                Log.e("ELASTICSEARCH", ex.getMessage(), ex);
             }
 
             return success;
@@ -240,9 +238,8 @@ public class ElasticSearchManager {
                 } else {
                     Log.i("ELASTICSEARCH", "No bids found");
                 }
-            } catch (IOException e) {
-                Log.i("ELASTICSEARCH", "Bid search failed");
-                e.printStackTrace();
+            } catch (IOException ex) {
+                Log.e("ELASTICSEARCH", "Bid search failed", ex);
             }
 
             return bids;
@@ -267,13 +264,13 @@ public class ElasticSearchManager {
                 DocumentResult execute = client.execute(index);
                 if(execute.isSucceeded()) {
                     Log.i("ELASTICSEARCH", "Add bid was successful");
-                    Log.i("ADDED BID", id);
+                    Log.i("************* ADDED BID", id);
                     success = true;
                 } else {
                     Log.e("ELASTICSEARCH", "Add bid failed");
                 }
-            } catch (IOException e) {
-                e.printStackTrace();
+            } catch (IOException ex) {
+                Log.e("ELASTICSEARCH", ex.getMessage(), ex);
             }
 
             return success;
@@ -298,8 +295,8 @@ public class ElasticSearchManager {
                 } else {
                     Log.e("ELASTICSEARCH", "Delete bid failed");
                 }
-            } catch (IOException e) {
-                e.printStackTrace();
+            } catch (IOException ex) {
+                Log.e("ELASTICSEARCH", ex.getMessage(), ex);
             }
             return success;
         }

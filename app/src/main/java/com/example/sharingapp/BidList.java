@@ -1,5 +1,7 @@
 package com.example.sharingapp;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -103,8 +105,8 @@ public class BidList extends Observable {
         try {
             BIDS.clear();
             BIDS.addAll(getBidListTask.get());
-        } catch (InterruptedException | ExecutionException e) {
-            e.printStackTrace();
+        } catch (InterruptedException | ExecutionException ex) {
+            Log.e("BID_LIST", ex.getMessage(), ex);
         }
         notifyObservers();
     }

@@ -1,5 +1,7 @@
 package com.example.sharingapp;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -85,8 +87,8 @@ public class UserList extends Observable {
         try {
             USERS.clear();
             USERS.addAll(getUserListTask.get());
-        } catch (InterruptedException | ExecutionException e) {
-            e.printStackTrace();
+        } catch (InterruptedException | ExecutionException ex) {
+            Log.e("USER_LIST", ex.getMessage(), ex);
         }
         notifyObservers();
     }

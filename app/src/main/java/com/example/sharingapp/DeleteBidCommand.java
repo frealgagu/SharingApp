@@ -1,5 +1,7 @@
 package com.example.sharingapp;
 
+import android.util.Log;
+
 import java.util.concurrent.ExecutionException;
 
 /**
@@ -26,8 +28,8 @@ public class DeleteBidCommand extends Command {
             if(removeBidTask.get()) {
                 super.setIsExecuted(true);
             }
-        } catch (InterruptedException | ExecutionException e) {
-            e.printStackTrace();
+        } catch (InterruptedException | ExecutionException ex) {
+            Log.e("BID_LIST", ex.getMessage(), ex);
             super.setIsExecuted(false);
         }
     }
