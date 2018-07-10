@@ -231,7 +231,8 @@
         android:layout_marginTop="5dp"
         android:layout_gravity="center_horizontal"
         android:background="@color/colorPrimary"
-        android:label="@string/image_icon"/>
+        android:label="@string/image_icon"
+        tools:ignore="ContentDescription"/>
 
     <LinearLayout
         android:orientation="horizontal"
@@ -248,7 +249,8 @@
             android:onClick="addPhoto"
             android:layout_gravity="center"
             android:visibility="gone"
-            android:background="@android:drawable/ic_menu_camera" />
+            android:background="@android:drawable/ic_menu_camera"
+            tools:ignore="ContentDescription"/>
 
 
         <ImageButton
@@ -258,7 +260,8 @@
             android:onClick="deletePhoto"
             android:layout_gravity="center"
             android:visibility="gone"
-            android:background="@android:drawable/ic_menu_close_clear_cancel" />
+            android:background="@android:drawable/ic_menu_close_clear_cancel"
+            tools:ignore="ContentDescription"/>
 
         <Button
             android:id="@+id/delete_item"
@@ -313,7 +316,8 @@
             android:text="@string/return_item_button"
             android:layout_gravity="center_horizontal"
             android:visibility="gone"
-            android:textAppearance="@android:style/TextAppearance.Medium"/>
+            android:textAppearance="@android:style/TextAppearance.Medium"
+            tools:ignore="ButtonStyle"/>
 
         <Button
             android:id="@+id/contact_info_button"
@@ -326,7 +330,8 @@
             android:text="@string/view_contact_info_button"
             android:layout_gravity="center_horizontal"
             android:visibility="gone"
-            android:textAppearance="@android:style/TextAppearance.Medium"/>
+            android:textAppearance="@android:style/TextAppearance.Medium"
+            tools:ignore="ButtonStyle"/>
 
     </LinearLayout>
 

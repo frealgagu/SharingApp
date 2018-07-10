@@ -166,7 +166,8 @@
         android:layout_marginTop="5dp"
         android:layout_gravity="center_horizontal"
         android:background="@color/colorPrimary"
-        android:label="@string/image_icon"/>
+        android:label="@string/image_icon"
+        tools:ignore="ContentDescription"/>
 
     <LinearLayout
         android:orientation="horizontal"
@@ -181,7 +182,8 @@
             android:layout_height="48dp"
             android:onClick="addPhoto"
             android:layout_gravity="center"
-            android:background="@android:drawable/ic_menu_camera" />
+            android:background="@android:drawable/ic_menu_camera"
+            tools:ignore="ContentDescription"/>
 
         <ImageButton
             android:id="@+id/cancel_image_button"
@@ -189,7 +191,8 @@
             android:layout_height="48dp"
             android:onClick="deletePhoto"
             android:layout_gravity="center"
-            android:background="@android:drawable/ic_menu_close_clear_cancel" />
+            android:background="@android:drawable/ic_menu_close_clear_cancel"
+            tools:ignore="ContentDescription"/>
     </LinearLayout>
 
     <LinearLayout

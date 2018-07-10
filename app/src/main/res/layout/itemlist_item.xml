@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
@@ -8,7 +9,8 @@
         android:orientation="horizontal"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_gravity="center_horizontal">
+        android:layout_gravity="center_horizontal"
+        tools:ignore="UselessParent">
 
         <ImageView
             android:id="@+id/image_view"
@@ -16,11 +18,12 @@
             android:layout_height="60dp"
             android:scaleType="centerCrop"
             android:layout_marginBottom="5dp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="10dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="10dp"
             android:layout_marginTop="5dp"
             android:background="@color/colorPrimary"
-            android:label="@string/image_icon"/>
+            android:label="@string/image_icon"
+            tools:ignore="ContentDescription"/>
 
         <LinearLayout
             android:orientation="vertical"

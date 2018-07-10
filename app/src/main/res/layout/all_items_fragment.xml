@@ -20,7 +20,8 @@
         android:background="@color/colorPrimary"
         app:srcCompat="@android:drawable/ic_input_add"
         tools:layout_editor_absoluteX="8dp"
-        tools:layout_editor_absoluteY="0dp" />
+        tools:layout_editor_absoluteY="0dp"
+        tools:ignore="ContentDescription,MissingPrefix"/>
 
     <ListView
         android:id="@+id/my_items"
