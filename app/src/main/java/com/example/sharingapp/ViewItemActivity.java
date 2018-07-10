@@ -89,7 +89,7 @@ public class ViewItemActivity extends AppCompatActivity implements Observer {
         userListController.getRemoteUsers();
 
         onCreateUpdate = true; // First call to update occurs now
-        bidListController.loadBids(context);
+        bidListController.getRemoteBids();
         bidListController.addObserver(this);
         itemListController.addObserver(this);
         itemListController.getRemoteItems();

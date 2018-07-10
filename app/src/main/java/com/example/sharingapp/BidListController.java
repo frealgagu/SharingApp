@@ -25,23 +25,23 @@ public class BidListController {
     }
 
     public boolean addBid(Bid bid, Context context){
-        AddBidCommand addBidCommand = new AddBidCommand(bidList, bid, context);
+        AddBidCommand addBidCommand = new AddBidCommand(bid);
         addBidCommand.execute();
         return addBidCommand.isExecuted();
     }
 
-    public boolean removeBid(Bid bid, Context context) {
-        DeleteBidCommand deleteBidCommand = new DeleteBidCommand(bidList, bid, context);
+    public boolean removeBid(Bid bid) {
+        DeleteBidCommand deleteBidCommand = new DeleteBidCommand(bid);
         deleteBidCommand.execute();
         return deleteBidCommand.isExecuted();
     }
 
-    public boolean removeItemBids(String id, Context context) {
+    public boolean removeItemBids(String id) {
         DeleteBidCommand deleteBidCommand;
         List<Bid> oldBids = bidList.getItemBids(id);
 
-        for (Bid b : oldBids) {
-            deleteBidCommand = new DeleteBidCommand(bidList, b, context);
+        for (Bid oldBid : oldBids) {
+            deleteBidCommand = new DeleteBidCommand(oldBid);
             deleteBidCommand.execute();
             if (!deleteBidCommand.isExecuted()){
                 return false;
@@ -78,12 +78,8 @@ public class BidListController {
         return bidList.getHighestBidder(id);
     }
 
-    public void loadBids(Context context) {
-        bidList.loadBids(context);
-    }
-
-    public boolean saveBids(Context context) {
-        return bidList.saveBids(context);
+    public void getRemoteBids() {
+        bidList.getRemoteBids();
     }
 
     public void addObserver(Observer observer) {

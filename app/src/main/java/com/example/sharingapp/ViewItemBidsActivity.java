@@ -45,7 +45,7 @@ public class ViewItemBidsActivity extends AppCompatActivity implements Observer 
 
         context = getApplicationContext();
 
-        bidListController.loadBids(context);
+        bidListController.getRemoteBids();
         bidListController.addObserver(this);
         itemBidList = bidListController.getItemBids(itemId);
 
@@ -89,7 +89,7 @@ public class ViewItemBidsActivity extends AppCompatActivity implements Observer 
         }
 
         // Delete all bids related to that item.
-        success =  bidListController.removeItemBids(itemId, context);
+        success =  bidListController.removeItemBids(itemId);
         if (!success){
             return;
         }
@@ -131,13 +131,12 @@ public class ViewItemBidsActivity extends AppCompatActivity implements Observer 
         String status = itemController.getStatus();
 
         // Delete selected bid.
-        Boolean success = bidListController.removeBid(bid, context);
+        Boolean success = bidListController.removeBid(bid);
         if (!success){
             return;
         }
 
         itemBidList.remove(bid);
-        bidListController.saveBids(context); // Save the changes, call to update
 
         if (itemBidList.isEmpty()) {
             status = "Available";
@@ -203,7 +202,7 @@ public class ViewItemBidsActivity extends AppCompatActivity implements Observer 
         }
 
         // Delete all bids related to that item.
-        success =  bidListController.removeItemBids(itemId, context);
+        success =  bidListController.removeItemBids(itemId);
         if (!success){
             return;
         }

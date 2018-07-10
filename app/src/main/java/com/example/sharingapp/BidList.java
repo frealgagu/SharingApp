@@ -1,27 +1,14 @@
 package com.example.sharingapp;
 
-import android.content.Context;
-
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 /**
  * BidList Class
  */
 @SuppressWarnings("WeakerAccess")
 public class BidList extends Observable {
-
-    private static final String FILENAME = "bids.sav";
 
     private static final List<Bid> BIDS = new ArrayList<>();
 
@@ -36,16 +23,6 @@ public class BidList extends Observable {
 
     public List<Bid> getBids() {
         return new ArrayList<>(BIDS);
-    }
-
-    public void addBid(Bid bid){
-        BIDS.add(bid);
-        notifyObservers();
-    }
-
-    public void removeBid(Bid bid){
-        BIDS.remove(bid);
-        notifyObservers();
     }
 
     public Bid getBid(int index) {
@@ -119,37 +96,16 @@ public class BidList extends Observable {
         return highestBidder;
     }
 
-    public void loadBids(Context context) {
-        BIDS.clear();
+    public void getRemoteBids() {
+        ElasticSearchManager.GetBidListTask getBidListTask = new ElasticSearchManager.GetBidListTask();
+        getBidListTask.execute();
+
         try {
-            FileInputStream fis = context.openFileInput(FILENAME);
-            InputStreamReader isr = new InputStreamReader(fis);
-            Gson gson = new Gson();
-            Type listType = new TypeToken<ArrayList<Bid>>() {}.getType();
-            List<Bid> bidList = gson.fromJson(isr, listType);// temporary
-            BIDS.addAll(bidList);
-            fis.close();
-        } catch (IOException ex) {
-            ex.printStackTrace();
+            BIDS.clear();
+            BIDS.addAll(getBidListTask.get());
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
         }
         notifyObservers();
-    }
-
-    public boolean saveBids(Context context) {
-        try {
-            FileOutputStream fos = context.openFileOutput(FILENAME, 0);
-            OutputStreamWriter osw = new OutputStreamWriter(fos);
-            Gson gson = new Gson();
-            gson.toJson(BIDS, osw);
-            osw.flush();
-            fos.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-            return false;
-        } catch (IOException e) {
-            e.printStackTrace();
-            return false;
-        }
-        return true;
     }
 }

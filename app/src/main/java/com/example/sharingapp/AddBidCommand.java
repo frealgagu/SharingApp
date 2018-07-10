@@ -1,6 +1,6 @@
 package com.example.sharingapp;
 
-import android.content.Context;
+import java.util.concurrent.ExecutionException;
 
 /**
  * Command to add a bid
@@ -8,19 +8,27 @@ import android.content.Context;
 @SuppressWarnings("WeakerAccess")
 public class AddBidCommand extends Command {
 
-    private BidList bidList;
     private Bid bid;
-    private Context context;
 
-    public AddBidCommand(BidList bidList, Bid bid, Context context) {
-        this.bidList = bidList;
+    public AddBidCommand(Bid bid) {
         this.bid = bid;
-        this.context = context;
     }
 
-    // Save bid locally
+    // Save the bid remotely to server
+    @SuppressWarnings("Duplicates")
     public void execute() {
-        bidList.addBid(bid);
-        super.setIsExecuted(bidList.saveBids(context));
+        ElasticSearchManager.AddBidTask addBidTask = new ElasticSearchManager.AddBidTask();
+        addBidTask.execute(bid);
+
+        // use get() to access the return of AddBidTask. i.e. AddBidTask returns a Boolean to
+        // indicate if the bid was successfully saved to the remote server
+        try {
+            if(addBidTask.get()) {
+                super.setIsExecuted(true);
+            }
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+            super.setIsExecuted(false);
+        }
     }
 }

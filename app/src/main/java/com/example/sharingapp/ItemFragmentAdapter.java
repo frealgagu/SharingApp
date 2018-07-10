@@ -72,7 +72,7 @@ public class ItemFragmentAdapter extends ArrayAdapter<Item> {
         if (fragment instanceof BiddedItemsFragment) {
             BidList bidList = new BidList();
             BidListController bidListController = new BidListController(bidList);
-            bidListController.loadBids(parent.getContext());
+            bidListController.getRemoteBids();
 
             String bidder = "Bidder: " + bidListController.getHighestBidder(itemController.getId());
             String highestBid = "Highest Bid: " + bidListController.getHighestBid(itemController.getId());
