@@ -2,20 +2,14 @@ package com.example.sharingapp;
 
 import android.os.AsyncTask;
 import android.util.Log;
-
 import com.searchly.jestdroid.DroidClientConfig;
 import com.searchly.jestdroid.JestClientFactory;
 import com.searchly.jestdroid.JestDroidClient;
+import io.searchbox.core.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
-import io.searchbox.core.Delete;
-import io.searchbox.core.DocumentResult;
-import io.searchbox.core.Index;
-import io.searchbox.core.Search;
-import io.searchbox.core.SearchResult;
 
 /**
  * For remote machine: SERVER = "http://34.202.206.222:8080"
