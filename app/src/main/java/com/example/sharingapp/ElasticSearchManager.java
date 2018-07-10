@@ -29,7 +29,7 @@ import io.searchbox.core.SearchResult;
  * instructions. Note: item_ids and user_ids are printed to the log (See the Android Monitor)
  * as each user/item is added.
  *
- * curl -XDELETE 'http://34.202.206.222:8080/586533040
+ * curl -XDELETE 'http://34.202.206.222:8080/586533040'
  * http://34.202.206.222:8080/586533040/items/item_id
  * http://34.202.206.222:8080/586533040/users/user_id
  * http://34.202.206.222:8080/586533040/bids/bid_id
