@@ -1,10 +1,11 @@
 package com.example.sharingapp;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * UserListController is responsible for all communication between views and UserList model
  */
+@SuppressWarnings({"WeakerAccess", "unused"})
 public class UserListController {
 
     private UserList user_list;
@@ -13,11 +14,11 @@ public class UserListController {
         this.user_list = user_list;
     }
 
-    public void setUsers(ArrayList<User> user_list) {
+    public void setUsers(List<User> user_list) {
         this.user_list.setUsers(user_list);
     }
 
-    public ArrayList<User> getUsers() {
+    public List<User> getUsers() {
         return user_list.getUsers();
     }
 

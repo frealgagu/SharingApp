@@ -35,7 +35,7 @@ import io.searchbox.core.SearchResult;
  * http://34.202.206.222:8080/586533040/bids/bid_id
  *
  */
-
+@SuppressWarnings("WeakerAccess")
 public class ElasticSearchManager {
     private static final String SERVER = "http://34.202.206.222:8080";
     private static final String INDEX = "586533040";

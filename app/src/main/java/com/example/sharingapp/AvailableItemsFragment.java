@@ -5,12 +5,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Displays a list of all "Available" items
  */
-public class AvailableItemsFragment extends ItemsFragment{
+@SuppressWarnings("WeakerAccess")
+public class AvailableItemsFragment extends ItemsFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -23,7 +24,7 @@ public class AvailableItemsFragment extends ItemsFragment{
         return rootView;
     }
 
-    public ArrayList<Item> filterItems() {
+    public List<Item> filterItems() {
         String status = "Available";
         return item_list_controller.filterItems(user_id, status);
     }

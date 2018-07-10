@@ -10,21 +10,20 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * ItemFragmentAdapter is responsible for what information is displayed in ListView entries.
  */
+@SuppressWarnings("WeakerAccess")
 public class ItemFragmentAdapter extends ArrayAdapter<Item> {
     private LayoutInflater inflater;
     private Fragment fragment;
-    private Context context;
 
-    public ItemFragmentAdapter(Context context, ArrayList<Item> items, Fragment fragment) {
+    public ItemFragmentAdapter(Context context, List<Item> items, Fragment fragment) {
         super(context, 0, items);
         inflater = LayoutInflater.from(context);
         this.fragment = fragment;
-        this.context = context;
     }
 
     @Override
@@ -39,15 +38,15 @@ public class ItemFragmentAdapter extends ArrayAdapter<Item> {
 
         // Check if an existing view is being reused, otherwise inflate the view.
         if (convertView == null) {
-            convertView = inflater.from(context).inflate(R.layout.itemlist_item, parent, false);
+            convertView = inflater.inflate(R.layout.itemlist_item, parent, false);
         }
 
-        TextView title_tv = (TextView) convertView.findViewById(R.id.title_tv);
-        TextView status_tv = (TextView) convertView.findViewById(R.id.status_tv);
-        TextView description_tv = (TextView) convertView.findViewById(R.id.description_tv);
-        ImageView photo = (ImageView) convertView.findViewById(R.id.image_view);
-        TextView bidder_tv = (TextView) convertView.findViewById(R.id.bidder_tv);
-        TextView highest_bid_tv = (TextView) convertView.findViewById(R.id.highest_bid_tv);
+        TextView title_tv = convertView.findViewById(R.id.title_tv);
+        TextView status_tv = convertView.findViewById(R.id.status_tv);
+        TextView description_tv = convertView.findViewById(R.id.description_tv);
+        ImageView photo = convertView.findViewById(R.id.image_view);
+        TextView bidder_tv = convertView.findViewById(R.id.bidder_tv);
+        TextView highest_bid_tv = convertView.findViewById(R.id.highest_bid_tv);
 
         if (thumbnail != null) {
             photo.setImageBitmap(thumbnail);

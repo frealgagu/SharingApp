@@ -118,7 +118,7 @@ public class AddItemActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onActivityResult(int request_code, int result_code, Intent intent){
+    protected void onActivityResult(int request_code, int result_code, Intent intent) {
         if (request_code == REQUEST_CODE && result_code == RESULT_OK){
             Bundle extras = intent.getExtras();
             image = (Bitmap) extras.get("data");
@@ -127,7 +127,7 @@ public class AddItemActivity extends AppCompatActivity {
         Toast.makeText(context, "Photo added.", Toast.LENGTH_SHORT).show();
     }
 
-    public boolean validateInput(){
+    private boolean validateInput() {
         if (title_str.equals("")) {
             title.setError("Empty field!");
             return false;
@@ -167,7 +167,6 @@ public class AddItemActivity extends AppCompatActivity {
             min_bid.setError("Starting bid must be above 0!");
             return false;
         }
-
         return true;
     }
 }

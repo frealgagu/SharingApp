@@ -11,11 +11,12 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Superclass of AvailableItemsFragment, BorrowedItemsFragment and AllItemsFragment
  */
+@SuppressWarnings("WeakerAccess")
 public abstract class ItemsFragment extends Fragment implements Observer {
 
     private ItemList item_list = new ItemList();
@@ -26,7 +27,7 @@ public abstract class ItemsFragment extends Fragment implements Observer {
 
     private ListView list_view;
     private ArrayAdapter<Item> adapter;
-    private ArrayList<Item> selected_items;
+    private List<Item> selected_items;
     private LayoutInflater inflater;
     private ViewGroup container;
     private Context context;
@@ -48,7 +49,7 @@ public abstract class ItemsFragment extends Fragment implements Observer {
 
     public void setVariables(int resource, int id ) {
         rootView = inflater.inflate(resource, container, false);
-        list_view = (ListView) rootView.findViewById(id);
+        list_view = rootView.findViewById(id);
         selected_items = filterItems();
     }
 
@@ -87,7 +88,7 @@ public abstract class ItemsFragment extends Fragment implements Observer {
      * filterItems is implemented independently by AvailableItemsFragment, BorrowedItemsFragment and AllItemsFragment
      * @return selected_items
      */
-    public abstract ArrayList<Item> filterItems();
+    public abstract List<Item> filterItems();
 
     /**
      * Called when the activity is destroyed, thus we remove this fragment as an observer

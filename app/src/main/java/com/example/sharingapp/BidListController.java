@@ -2,23 +2,25 @@ package com.example.sharingapp;
 
 import android.content.Context;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * BidListController is responsible for all communication between views and BidList model
  */
+@SuppressWarnings({"WeakerAccess", "unused"})
 public class BidListController {
+
     private BidList bid_list;
 
     public BidListController(BidList bid_list) {
         this.bid_list = bid_list;
     }
 
-    public void setBids(ArrayList<Bid> bid_list) {
+    public void setBids(List<Bid> bid_list) {
         this.bid_list.setBids(bid_list);
     }
 
-    public ArrayList<Bid> getBids() {
+    public List<Bid> getBids() {
         return bid_list.getBids();
     }
 
@@ -36,7 +38,7 @@ public class BidListController {
 
     public boolean removeItemBids(String id, Context context) {
         DeleteBidCommand delete_bid_command;
-        ArrayList<Bid> old_bids = bid_list.getItemBids(id);
+        List<Bid> old_bids = bid_list.getItemBids(id);
 
         for (Bid b : old_bids) {
             delete_bid_command = new DeleteBidCommand(bid_list, b, context);
@@ -64,7 +66,7 @@ public class BidListController {
         return bid_list.getSize();
     }
 
-    public ArrayList<Bid> getItemBids(String id) {
+    public List<Bid> getItemBids(String id) {
         return bid_list.getItemBids(id);
     }
 

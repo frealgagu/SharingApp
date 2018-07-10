@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentPagerAdapter;
  * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
  * one of the sections/tabs/pages.
  */
+@SuppressWarnings("WeakerAccess")
 public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
     private String user_id;

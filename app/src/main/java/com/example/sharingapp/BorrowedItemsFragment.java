@@ -5,11 +5,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Displays a list of all "Borrowed" items
  */
+@SuppressWarnings("WeakerAccess")
 public class BorrowedItemsFragment extends ItemsFragment {
 
     @Override
@@ -23,7 +24,7 @@ public class BorrowedItemsFragment extends ItemsFragment {
         return rootView;
     }
 
-    public ArrayList<Item> filterItems() {
+    public List<Item> filterItems() {
         String status = "Borrowed";
         return item_list_controller.filterItems(user_id, status);
     }

@@ -11,14 +11,14 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class ViewItemBidsActivity extends AppCompatActivity implements Observer {
 
     private BidList bid_list = new BidList();
     private BidListController bid_list_controller = new BidListController(bid_list);
 
-    private ArrayList<Bid> item_bid_list; // Bids placed on the item
+    private List<Bid> item_bid_list; // Bids placed on the item
 
     private ItemList item_list = new ItemList();
     private ItemListController item_list_controller = new ItemListController(item_list);
@@ -111,7 +111,7 @@ public class ViewItemBidsActivity extends AppCompatActivity implements Observer 
         }, 750);
     }
 
-    public void declineBid(View view){
+    public void declineBid(View view) {
         int pos = item_bids.getPositionForView(view);
 
         Bid bid = adapter.getItem(pos);
@@ -177,7 +177,7 @@ public class ViewItemBidsActivity extends AppCompatActivity implements Observer 
 
     }
 
-    public void declineAllBids(View view){
+    public void declineAllBids(View view) {
         Item item = item_list_controller.getItemById(item_id);
         ItemController item_controller = new ItemController(item);
 

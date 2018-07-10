@@ -5,6 +5,7 @@ import android.content.Context;
 /**
  * Command to delete a bid
  */
+@SuppressWarnings("WeakerAccess")
 public class DeleteBidCommand extends Command {
 
     private BidList bid_list;

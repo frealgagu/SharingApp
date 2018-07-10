@@ -10,6 +10,7 @@ import java.util.UUID;
 /**
  * Item class
  */
+@SuppressWarnings("WeakerAccess")
 public class Item extends Observable {
 
     private String title;
@@ -20,8 +21,8 @@ public class Item extends Observable {
     private Float minimum_bid;
     private User borrower;
     private String owner_id;
-    protected transient Bitmap image;
-    protected String image_base64;
+    private transient Bitmap image;
+    private String image_base64;
     private String id;
 
     public Item(String title, String maker, String description, String owner_id, String minimum_bid, Bitmap image, String id) {

@@ -5,6 +5,7 @@ import java.util.concurrent.ExecutionException;
 /**
  * Command to add an item
  */
+@SuppressWarnings("WeakerAccess")
 public class AddItemCommand extends Command{
 
     private Item item;
@@ -14,7 +15,7 @@ public class AddItemCommand extends Command{
     }
 
     // Save the item remotely to server
-    public void execute(){
+    public void execute() {
         ElasticSearchManager.AddItemTask add_item_task = new ElasticSearchManager.AddItemTask();
         add_item_task.execute(item);
 

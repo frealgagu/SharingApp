@@ -1,24 +1,24 @@
 package com.example.sharingapp;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Superclass of Item, ItemList, User, UserList, Bid, BidList
  */
+@SuppressWarnings("WeakerAccess")
 public class Observable {
 
-    private ArrayList<Observer> observers = null;
+    private final List<Observer> observers;
 
     public Observable(){
-        observers = new ArrayList<Observer>();
+        observers = new ArrayList<>();
     }
 
     // Notify observers when need to update any changes made to model
     public void notifyObservers() {
-        if (observers != null) {
-            for (Observer observer : observers) {
-                observer.update();
-            }
+        for (Observer observer : observers) {
+            observer.update();
         }
     }
 

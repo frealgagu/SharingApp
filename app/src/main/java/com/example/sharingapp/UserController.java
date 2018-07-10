@@ -3,6 +3,7 @@ package com.example.sharingapp;
 /**
  * UserController is responsible for all communication between views and User model
  */
+@SuppressWarnings("WeakerAccess")
 public class UserController {
 
     private User user;

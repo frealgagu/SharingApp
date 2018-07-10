@@ -5,6 +5,7 @@ import java.util.concurrent.ExecutionException;
 /**
  * Command to add user
  */
+@SuppressWarnings("WeakerAccess")
 public class AddUserCommand extends Command {
 
     private User user;

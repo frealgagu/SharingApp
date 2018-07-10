@@ -5,11 +5,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Displays a list of all items
  */
+@SuppressWarnings("WeakerAccess")
 public class AllItemsFragment extends ItemsFragment {
 
     @Override
@@ -23,8 +24,7 @@ public class AllItemsFragment extends ItemsFragment {
         return rootView;
     }
 
-    public ArrayList<Item> filterItems() {
+    public List<Item> filterItems() {
         return item_list_controller.getMyItems(user_id);
     }
-
 }

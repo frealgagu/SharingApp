@@ -188,9 +188,9 @@ public class ViewItemActivity extends AppCompatActivity implements Observer {
                 Float highest_bid = bid_list_controller.getHighestBid(item_id);
 
                 if (highest_bid == null) {
-                    current_bid_right_tv.setText(item_controller.getMinBid().toString());
+                    current_bid_right_tv.setText(String.valueOf(item_controller.getMinBid()));
                 } else {
-                    current_bid_right_tv.setText(highest_bid.toString());
+                    current_bid_right_tv.setText(String.valueOf(highest_bid));
                 }
             } else { // Borrowed
                 current_bid_right_tv.setVisibility(View.GONE);
@@ -242,7 +242,7 @@ public class ViewItemActivity extends AppCompatActivity implements Observer {
         }, 750);
     }
 
-    public boolean validateInput(){
+    private boolean validateInput() {
         if (new_bid_amount_str.equals("")) {
             bid_amount.setError("Enter Bid!");
             return false;

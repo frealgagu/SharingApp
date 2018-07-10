@@ -1,49 +1,52 @@
 package com.example.sharingapp;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 /**
  * UserList class
  */
+@SuppressWarnings("WeakerAccess")
 public class UserList extends Observable {
 
-    private static ArrayList<User> users;
+    private static final List<User> USERS = new ArrayList<>();
 
     public UserList() {
-        users = new ArrayList<User>();
     }
 
-    public void setUsers(ArrayList<User> user_list) {
-        users = user_list;
+    public void setUsers(List<User> user_list) {
+        USERS.clear();
+        USERS.addAll(user_list);
         notifyObservers();
     }
 
-    public ArrayList<User> getUsers() {
-        return users;
+    public List<User> getUsers() {
+        return new ArrayList<>(USERS);
     }
 
-
+    @SuppressWarnings("unused")
     public void addUser(User user) {
-        users.add(user);
+        USERS.add(user);
         notifyObservers();
     }
 
+    @SuppressWarnings("unused")
     public void deleteUser(User user) {
-        users.remove(user);
+        USERS.remove(user);
         notifyObservers();
     }
 
     public User getUser(int index) {
-        return users.get(index);
+        return USERS.get(index);
     }
 
     public int getSize() {
-        return users.size();
+        return USERS.size();
     }
 
     public User getUserByUsername(String username){
-        for (User u : users){
+        for (User u : USERS){
             if (u.getUsername().equals(username)){
                 return u;
             }
@@ -52,7 +55,7 @@ public class UserList extends Observable {
     }
 
     public User getUserByUserId(String user_id){
-        for (User u : users){
+        for (User u : USERS){
             if (u.getId().equals(user_id)){
                 return u;
             }
@@ -61,7 +64,7 @@ public class UserList extends Observable {
     }
 
     public String getUsernameByUserId(String user_id){
-        for (User u : users){
+        for (User u : USERS){
             if (u.getId().equals(user_id)){
                 return u.getUsername();
             }
@@ -70,7 +73,7 @@ public class UserList extends Observable {
     }
 
     public String getUserIdByUsername(String username){
-        for (User u : users){
+        for (User u : USERS){
             if (u.getUsername().equals(username)){
                 return u.getId();
             }
@@ -79,7 +82,7 @@ public class UserList extends Observable {
     }
 
     public boolean isUsernameAvailable(String username){
-        for (User u : users) {
+        for (User u : USERS) {
             if (u.getUsername().equals(username)) {
                 return false;
             }
@@ -92,7 +95,8 @@ public class UserList extends Observable {
         get_user_list_task.execute();
 
         try {
-            users = get_user_list_task.get();
+            USERS.clear();
+            USERS.addAll(get_user_list_task.get());
         } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
         }

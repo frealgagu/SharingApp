@@ -7,20 +7,19 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * BidAdapter is responsible for what information is displayed in bid ListView entries.
  */
+@SuppressWarnings("WeakerAccess")
 public class BidAdapter extends ArrayAdapter<Bid> {
 
     private LayoutInflater inflater;
-    private Context context;
 
-    public BidAdapter(Context context, ArrayList<Bid> bids) {
+    public BidAdapter(Context context, List<Bid> bids) {
         super(context, 0, bids);
         this.inflater = LayoutInflater.from(context);
-        this.context = context;
     }
 
     @Override
@@ -33,11 +32,11 @@ public class BidAdapter extends ArrayAdapter<Bid> {
 
         // Check if an existing view is being reused, otherwise inflate the view.
         if (convertView == null) {
-            convertView = inflater.from(context).inflate(R.layout.bidlist_bid, parent, false);
+            convertView = inflater.inflate(R.layout.bidlist_bid, parent, false);
         }
 
-        TextView bidder_tv = (TextView) convertView.findViewById(R.id.bidder_tv);
-        TextView bid_amount_tv = (TextView) convertView.findViewById(R.id.bid_amount_tv);
+        TextView bidder_tv = convertView.findViewById(R.id.bidder_tv);
+        TextView bid_amount_tv = convertView.findViewById(R.id.bid_amount_tv);
 
         bidder_tv.setText(bidder);
         bid_amount_tv.setText(bid_amount);

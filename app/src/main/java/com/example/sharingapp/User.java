@@ -5,7 +5,9 @@ import java.util.UUID;
 /**
  * User class
  */
+@SuppressWarnings("WeakerAccess")
 public class User extends Observable {
+
     private String username;
     private String email;
     private String id;

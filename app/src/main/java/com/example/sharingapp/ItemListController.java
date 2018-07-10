@@ -1,11 +1,12 @@
 package com.example.sharingapp;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * ItemListController is responsible for all communication between views and ItemList model
  */
 
+@SuppressWarnings({"WeakerAccess", "unused"})
 public class ItemListController {
 
     private ItemList item_list;
@@ -14,15 +15,15 @@ public class ItemListController {
         this.item_list = item_list;
     }
 
-    public void setItems(ArrayList<Item> item_list) {
+    public void setItems(List<Item> item_list) {
         this.item_list.setItems(item_list);
     }
 
-    public ArrayList<Item> getItems() {
+    public List<Item> getItems() {
         return item_list.getItems();
     }
 
-    public ArrayList<Item> getMyItems(String user_id) {
+    public List<Item> getMyItems(String user_id) {
         return item_list.getMyItems(user_id);
     }
 
@@ -60,15 +61,15 @@ public class ItemListController {
         return item_list.getSize();
     }
 
-    public ArrayList<Item> filterItems(String user_id, String status) {
+    public List<Item> filterItems(String user_id, String status) {
         return item_list.filterItems(user_id, status);
     }
 
-    public ArrayList<Item> getSearchItems(String user_id) {
+    public List<Item> getSearchItems(String user_id) {
         return item_list.getSearchItems(user_id);
     }
 
-    public ArrayList<Item> getBorrowedItemsByUsername(String username) {
+    public List<Item> getBorrowedItemsByUsername(String username) {
         return item_list.getBorrowedItemsByUsername(username);
     }
 

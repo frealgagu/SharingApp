@@ -102,7 +102,7 @@ public class EditUserActivity extends AppCompatActivity implements Observer {
         }
     }
 
-    public boolean validateInput(){
+    private boolean validateInput(){
         if (email_str.equals("")) {
             email.setError("Empty field!");
             return false;

@@ -3,6 +3,7 @@ package com.example.sharingapp;
 /**
  * BidController is responsible for all communication between views and Bid model
  */
+@SuppressWarnings({"WeakerAccess", "unused"})
 public class BidController {
     private Bid bid;
 

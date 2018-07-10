@@ -3,6 +3,7 @@ package com.example.sharingapp;
 /**
  * Dimensions class
  */
+@SuppressWarnings("WeakerAccess")
 public class Dimensions {
 
     private String length;

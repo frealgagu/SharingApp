@@ -93,12 +93,12 @@ public class SearchActivity extends AppCompatActivity implements Observer {
             return;
         }
 
-        ArrayList<String> keywords = new ArrayList<String>();
+        ArrayList<String> keywords = new ArrayList<>();
         keywords.addAll(splitWords(entry));
 
-        ArrayList<Item> matching_items = new ArrayList<Item>();
+        ArrayList<Item> matching_items = new ArrayList<>();
         for (Item i : item_list_controller.getSearchItems(user_id)) {
-            ArrayList<String> item_words = new ArrayList<String>();
+            ArrayList<String> item_words = new ArrayList<>();
             item_words.addAll(splitWords(i.getTitle()));
             item_words.addAll(splitWords(i.getMaker()));
             item_words.addAll(splitWords(i.getDescription()));
@@ -122,8 +122,8 @@ public class SearchActivity extends AppCompatActivity implements Observer {
         }
     }
 
-    public ArrayList<String> splitWords(String item_string) {
-        ArrayList<String> item_words = new ArrayList<String>();
+    private ArrayList<String> splitWords(String item_string) {
+        ArrayList<String> item_words = new ArrayList<>();
         item_words.addAll(Arrays.asList(item_string.split("[ ;,.?!@#$%^&*+-_=<>/]")));
 
         return item_words;

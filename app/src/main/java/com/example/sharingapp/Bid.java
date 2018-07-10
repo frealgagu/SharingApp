@@ -5,7 +5,9 @@ import java.util.UUID;
 /**
  * Bid Class
  */
+@SuppressWarnings("WeakerAccess")
 public class Bid extends Observable {
+
     private String item_id;
     private String bid_id;
     private Float bid_amount;

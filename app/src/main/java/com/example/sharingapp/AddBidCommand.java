@@ -5,6 +5,7 @@ import android.content.Context;
 /**
  * Command to add a bid
  */
+@SuppressWarnings("WeakerAccess")
 public class AddBidCommand extends Command {
 
     private BidList bid_list;
@@ -18,7 +19,7 @@ public class AddBidCommand extends Command {
     }
 
     // Save bid locally
-    public void execute(){
+    public void execute() {
         bid_list.addBid(bid);
         super.setIsExecuted(bid_list.saveBids(context));
     }

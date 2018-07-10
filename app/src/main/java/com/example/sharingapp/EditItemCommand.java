@@ -5,6 +5,7 @@ import java.util.concurrent.ExecutionException;
 /**
  * Command used to edit pre-existing item
  */
+@SuppressWarnings("WeakerAccess")
 public class EditItemCommand extends Command {
     private Item old_item;
     private Item new_item;

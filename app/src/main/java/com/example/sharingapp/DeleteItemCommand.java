@@ -5,6 +5,7 @@ import java.util.concurrent.ExecutionException;
 /**
  * Command to delete an item
  */
+@SuppressWarnings("WeakerAccess")
 public class DeleteItemCommand extends Command {
 
     private Item item;

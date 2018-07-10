@@ -44,7 +44,7 @@ public class LoginActivity extends AppCompatActivity {
     public void login(View view) {
         username_str = username.getText().toString();
         email_str = email.getText().toString();
-        String user_id = "";
+        String user_id;
 
         if (user_list_controller.getUserByUsername(username_str) == null && email.getVisibility() == View.GONE) {
             email.setVisibility(View.VISIBLE);
@@ -87,7 +87,7 @@ public class LoginActivity extends AppCompatActivity {
         }, 750);
     }
 
-    public boolean validateInput(){
+    private boolean validateInput(){
         if (email_str.equals("")) {
             email.setError("Empty field!");
             return false;

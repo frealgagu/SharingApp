@@ -308,7 +308,7 @@ public class EditItemActivity extends AppCompatActivity implements Observer {
         }
     }
 
-    public boolean validateInput(){
+    private boolean validateInput(){
         if (title_str.equals("")) {
             title.setError("Empty field!");
             return false;

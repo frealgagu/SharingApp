@@ -5,6 +5,7 @@ import java.util.concurrent.ExecutionException;
 /**
  * Command used to edit pre-existing user
  */
+@SuppressWarnings("WeakerAccess")
 public class EditUserCommand extends Command {
 
     private User old_user;

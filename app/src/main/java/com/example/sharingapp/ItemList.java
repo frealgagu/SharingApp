@@ -1,44 +1,48 @@
 package com.example.sharingapp;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 /**
  * ItemList class
  */
+@SuppressWarnings("WeakerAccess")
 public class ItemList extends Observable {
 
-    private static ArrayList<Item> items;
+    private static final List<Item> ITEMS = new ArrayList<>();
 
     public ItemList() {
-        items = new ArrayList<Item>();
     }
 
-    public void setItems(ArrayList<Item> item_list) {
-        items = item_list;
+    public void setItems(List<Item> item_list) {
+        ITEMS.clear();
+        ITEMS.addAll(item_list);
         notifyObservers();
     }
 
-    public ArrayList<Item> getItems() {
-        return items;
+    public List<Item> getItems() {
+        return new ArrayList<>(ITEMS);
     }
 
+    @SuppressWarnings("unused")
     public void addItem(Item item) {
-        items.add(item);
+        ITEMS.add(item);
         notifyObservers();
     }
 
+    @SuppressWarnings("unused")
     public void deleteItem(Item item) {
-        items.remove(item);
+        ITEMS.remove(item);
         notifyObservers();
     }
 
     public Item getItem(int index) {
-        return items.get(index);
+        return ITEMS.get(index);
     }
 
     public boolean hasItem(Item item) {
-        for (Item i : items) {
+        for (Item i : ITEMS) {
             if (item.getId().equals(i.getId())) {
                 return true;
             }
@@ -48,7 +52,7 @@ public class ItemList extends Observable {
 
     public int getIndex(Item item) {
         int pos = 0;
-        for (Item i : items) {
+        for (Item i : ITEMS) {
             if (item.getId().equals(i.getId())) {
                 return pos;
             }
@@ -58,13 +62,13 @@ public class ItemList extends Observable {
     }
 
     public int getSize() {
-        return items.size();
+        return ITEMS.size();
     }
 
     // Used by AvailableItemsFragment, BorrowedItemsFragment, and BiddedItemsFragment
-    public ArrayList<Item> filterItems(String user_id, String status) {
-        ArrayList<Item> selected_items = new ArrayList<>();
-        for (Item i: items) {
+    public List<Item> filterItems(String user_id, String status) {
+        List<Item> selected_items = new ArrayList<>();
+        for (Item i: ITEMS) {
             if (i.getOwnerId().equals(user_id) && i.getStatus().equals(status)) {
                 selected_items.add(i);
             }
@@ -73,9 +77,9 @@ public class ItemList extends Observable {
     }
 
     // Used by AllItemsFragment
-    public ArrayList<Item> getMyItems(String user_id) {
-        ArrayList<Item> selected_items = new ArrayList<>();
-        for (Item i: items) {
+    public List<Item> getMyItems(String user_id) {
+        List<Item> selected_items = new ArrayList<>();
+        for (Item i: ITEMS) {
             if (i.getOwnerId().equals(user_id)) {
                 selected_items.add(i);
             }
@@ -84,9 +88,9 @@ public class ItemList extends Observable {
     }
 
     // Used by SearchItemsActivity
-    public ArrayList<Item> getSearchItems(String user_id) {
-        ArrayList<Item> selected_items = new ArrayList<>();
-        for (Item i: items) {
+    public List<Item> getSearchItems(String user_id) {
+        List<Item> selected_items = new ArrayList<>();
+        for (Item i: ITEMS) {
             if (!i.getOwnerId().equals(user_id) && !i.getStatus().equals("Borrowed")) {
                 selected_items.add(i);
             }
@@ -95,9 +99,9 @@ public class ItemList extends Observable {
     }
 
     // Used by BorrowedItemsActivity
-    public ArrayList<Item> getBorrowedItemsByUsername(String username) {
-        ArrayList<Item> selected_items = new ArrayList<>();
-        for (Item i: items) {
+    public List<Item> getBorrowedItemsByUsername(String username) {
+        List<Item> selected_items = new ArrayList<>();
+        for (Item i: ITEMS) {
             if (i != null && i.getBorrower() != null) {
                 if (i.getBorrowerUsername().equals(username)) {
                     selected_items.add(i);
@@ -108,7 +112,7 @@ public class ItemList extends Observable {
     }
 
     public Item getItemById(String id){
-        for (Item i: items) {
+        for (Item i: ITEMS) {
             if (i.getId().equals(id)) {
                 return i;
             }
@@ -121,7 +125,8 @@ public class ItemList extends Observable {
         get_item_list_task.execute();
 
         try {
-            items = get_item_list_task.get();
+            ITEMS.clear();
+            ITEMS.addAll(get_item_list_task.get());
         } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
         }
