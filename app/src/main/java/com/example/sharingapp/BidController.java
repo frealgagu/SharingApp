@@ -24,20 +24,20 @@ public class BidController {
         return bid.getItemId();
     }
 
-    public void setItemId(String item_id) {
-        bid.setItemId(item_id);
+    public void setItemId(String itemId) {
+        bid.setItemId(itemId);
     }
 
-    public void setbidAmount(float bid_amount) {
-        bid.setBidAmount(bid_amount);
+    public void setbidAmount(float bidAmount) {
+        bid.setBidAmount(bidAmount);
     }
 
     public Float getBidAmount() {
         return bid.getBidAmount();
     }
 
-    public void setBidderUsername(String bidder_username) {
-        bid.setBidderUsername(bidder_username);
+    public void setBidderUsername(String bidderUsername) {
+        bid.setBidderUsername(bidderUsername);
     }
 
     public String getBidderUsername() {

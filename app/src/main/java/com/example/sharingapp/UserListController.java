@@ -8,70 +8,70 @@ import java.util.List;
 @SuppressWarnings({"WeakerAccess", "unused"})
 public class UserListController {
 
-    private UserList user_list;
+    private UserList userList;
 
-    public UserListController(UserList user_list){
-        this.user_list = user_list;
+    public UserListController(UserList userList){
+        this.userList = userList;
     }
 
-    public void setUsers(List<User> user_list) {
-        this.user_list.setUsers(user_list);
+    public void setUsers(List<User> userList) {
+        this.userList.setUsers(userList);
     }
 
     public List<User> getUsers() {
-        return user_list.getUsers();
+        return userList.getUsers();
     }
 
     public boolean addUser(User user) {
-        AddUserCommand add_user_command = new AddUserCommand(user);
-        add_user_command.execute();
-        return add_user_command.isExecuted();
+        AddUserCommand addUserCommand = new AddUserCommand(user);
+        addUserCommand.execute();
+        return addUserCommand.isExecuted();
     }
 
-    public boolean editUser(User user, User updated_user){
-        EditUserCommand edit_user_command = new EditUserCommand(user, updated_user);
-        edit_user_command.execute();
-        return edit_user_command.isExecuted();
+    public boolean editUser(User user, User updatedUser){
+        EditUserCommand editUserCommand = new EditUserCommand(user, updatedUser);
+        editUserCommand.execute();
+        return editUserCommand.isExecuted();
     }
 
     public User getUser(int index) {
-        return user_list.getUser(index);
+        return userList.getUser(index);
     }
 
     public int getSize() {
-        return user_list.getSize();
+        return userList.getSize();
     }
 
     public User getUserByUsername( String username) {
-        return user_list.getUserByUsername(username);
+        return userList.getUserByUsername(username);
     }
 
-    public User getUserByUserId( String user_id) {
-        return user_list.getUserByUserId(user_id);
+    public User getUserByUserId( String userId) {
+        return userList.getUserByUserId(userId);
     }
 
 
     public boolean isUsernameAvailable(String username){
-        return user_list.isUsernameAvailable(username);
+        return userList.isUsernameAvailable(username);
     }
 
-    public String getUsernameByUserId(String user_id){
-        return user_list.getUsernameByUserId(user_id);
+    public String getUsernameByUserId(String userId){
+        return userList.getUsernameByUserId(userId);
     }
 
     public String getUserIdByUsername(String username){
-        return user_list.getUserIdByUsername(username);
+        return userList.getUserIdByUsername(username);
     }
 
     public void addObserver(Observer observer) {
-        user_list.addObserver(observer);
+        userList.addObserver(observer);
     }
 
     public void removeObserver(Observer observer) {
-       user_list.removeObserver(observer);
+       userList.removeObserver(observer);
     }
 
     public void getRemoteUsers(){
-        user_list.getRemoteUsers();
+        userList.getRemoteUsers();
     }
 }

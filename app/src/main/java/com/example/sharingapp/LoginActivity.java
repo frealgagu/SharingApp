@@ -15,15 +15,15 @@ import android.widget.Toast;
  */
 public class LoginActivity extends AppCompatActivity {
 
-    private UserList user_list = new UserList();
-    private UserListController user_list_controller = new UserListController(user_list);
+    private UserList userList = new UserList();
+    private UserListController userListController = new UserListController(userList);
 
     private EditText username;
     private EditText email;
-    private TextView email_tv;
+    private TextView emailTextView;
     private Context context;
-    private String username_str;
-    private String email_str;
+    private String usernameString;
+    private String emailString;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,50 +32,50 @@ public class LoginActivity extends AppCompatActivity {
 
         username = (EditText) findViewById(R.id.username);
         email = (EditText) findViewById(R.id.email);
-        email_tv = (TextView) findViewById(R.id.email_tv);
+        emailTextView = (TextView) findViewById(R.id.email_tv);
 
         email.setVisibility(View.GONE);
-        email_tv.setVisibility(View.GONE);
+        emailTextView.setVisibility(View.GONE);
 
         context = getApplicationContext();
-        user_list_controller.getRemoteUsers();
+        userListController.getRemoteUsers();
     }
 
     public void login(View view) {
-        username_str = username.getText().toString();
-        email_str = email.getText().toString();
-        String user_id;
+        usernameString = username.getText().toString();
+        emailString = email.getText().toString();
+        String userId;
 
-        if (user_list_controller.getUserByUsername(username_str) == null && email.getVisibility() == View.GONE) {
+        if (userListController.getUserByUsername(usernameString) == null && email.getVisibility() == View.GONE) {
             email.setVisibility(View.VISIBLE);
-            email_tv.setVisibility(View.VISIBLE);
+            emailTextView.setVisibility(View.VISIBLE);
             email.setError("New user! Must enter email!");
             return;
         }
 
         // User does not already have an account
-        if (user_list_controller.getUserByUsername(username_str) == null && email.getVisibility() == View.VISIBLE){
+        if (userListController.getUserByUsername(usernameString) == null && email.getVisibility() == View.VISIBLE){
             if(!validateInput()){
                 return;
             }
 
-            User user = new User(username_str, email_str, null);
-            UserController user_controller = new UserController(user);
-            user_id = user_controller.getId();
+            User user = new User(usernameString, emailString, null);
+            UserController userController = new UserController(user);
+            userId = userController.getId();
 
-            boolean success = user_list_controller.addUser(user);
+            boolean success = userListController.addUser(user);
             if (!success){
                 return;
             }
 
             Toast.makeText(context, "Profile created.", Toast.LENGTH_SHORT).show();
         } else { // User already has an account
-            user_id = user_list_controller.getUserIdByUsername(username_str);
+            userId = userListController.getUserIdByUsername(usernameString);
         }
 
         // Either way, start MainActivity
         final Intent intent = new Intent(this, MainActivity.class);
-        intent.putExtra(Constants.USER_ID, user_id);
+        intent.putExtra(Constants.USER_ID, userId);
 
         // Delay launch of MainActivity to allow server enough time to process request
         new Handler().postDelayed(new Runnable() {
@@ -88,17 +88,17 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private boolean validateInput(){
-        if (email_str.equals("")) {
+        if (emailString.equals("")) {
             email.setError("Empty field!");
             return false;
         }
 
-        if (!email_str.contains("@")) {
+        if (!emailString.contains("@")) {
             email.setError("Must be an email address!");
             return false;
         }
 
-        if (user_list_controller.getUserByUsername(username_str) != null) {
+        if (userListController.getUserByUsername(usernameString) != null) {
             username.setError("Username already taken!");
             return false;
         }

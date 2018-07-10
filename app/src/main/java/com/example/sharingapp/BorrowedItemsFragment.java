@@ -26,6 +26,6 @@ public class BorrowedItemsFragment extends ItemsFragment {
 
     public List<Item> filterItems() {
         String status = "Borrowed";
-        return item_list_controller.filterItems(user_id, status);
+        return itemListController.filterItems(userId, status);
     }
 }

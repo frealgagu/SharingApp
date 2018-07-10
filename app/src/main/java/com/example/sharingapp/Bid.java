@@ -24,8 +24,8 @@ public class Bid extends Observable {
         return this.itemId;
     }
 
-    public void setItemId(String item_id) {
-        this.itemId = item_id;
+    public void setItemId(String itemId) {
+        this.itemId = itemId;
     }
 
     public String getBidId(){
@@ -37,8 +37,8 @@ public class Bid extends Observable {
         notifyObservers();
     }
 
-    public void setBidAmount(Float bid_amount) {
-        this.bidAmount = bid_amount;
+    public void setBidAmount(Float bidAmount) {
+        this.bidAmount = bidAmount;
         notifyObservers();
     }
 
@@ -46,8 +46,8 @@ public class Bid extends Observable {
         return bidAmount;
     }
 
-    public void setBidderUsername(String bidder_username) {
-        this.bidderUsername = bidder_username;
+    public void setBidderUsername(String bidderUsername) {
+        this.bidderUsername = bidderUsername;
         notifyObservers();
     }
 

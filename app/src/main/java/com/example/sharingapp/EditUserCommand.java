@@ -8,28 +8,28 @@ import java.util.concurrent.ExecutionException;
 @SuppressWarnings("WeakerAccess")
 public class EditUserCommand extends Command {
 
-    private User old_user;
-    private User new_user;
+    private User oldUser;
+    private User newUser;
 
-    public EditUserCommand (User old_user, User new_user){
-        this.old_user = old_user;
-        this.new_user = new_user;
+    public EditUserCommand (User oldUser, User newUser){
+        this.oldUser = oldUser;
+        this.newUser = newUser;
     }
 
     // Delete the old user remotely, save the new user remotely to server
     @SuppressWarnings("Duplicates")
     public void execute() {
-        ElasticSearchManager.RemoveUserTask remove_user_task = new ElasticSearchManager.RemoveUserTask();
-        remove_user_task.execute(old_user);
+        ElasticSearchManager.RemoveUserTask removeUserTask = new ElasticSearchManager.RemoveUserTask();
+        removeUserTask.execute(oldUser);
 
-        ElasticSearchManager.AddUserTask add_user_task = new ElasticSearchManager.AddUserTask();
-        add_user_task.execute(new_user);
+        ElasticSearchManager.AddUserTask addUserTask = new ElasticSearchManager.AddUserTask();
+        addUserTask.execute(newUser);
 
         // use get() to access the return of AddUserTask/RemoveUserTask.
         // i.e. AddUserTask/RemoveUserTask returns a Boolean to indicate if the user was successfully
         // deleted/saved to the remote server
         try {
-            if(add_user_task.get() && remove_user_task.get()) {
+            if(addUserTask.get() && removeUserTask.get()) {
                 super.setIsExecuted(true);
             }
         } catch (InterruptedException | ExecutionException e) {

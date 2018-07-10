@@ -7,28 +7,29 @@ import java.util.concurrent.ExecutionException;
  */
 @SuppressWarnings("WeakerAccess")
 public class EditItemCommand extends Command {
-    private Item old_item;
-    private Item new_item;
 
-    public EditItemCommand(Item old_item, Item new_item) {
-        this.old_item = old_item;
-        this.new_item = new_item;
+    private Item oldItem;
+    private Item newItem;
+
+    public EditItemCommand(Item oldItem, Item newItem) {
+        this.oldItem = oldItem;
+        this.newItem = newItem;
     }
 
     // Delete the old item remotely, save the new item remotely to server
     @SuppressWarnings("Duplicates")
     public void execute() {
-        ElasticSearchManager.RemoveItemTask remove_item_task = new ElasticSearchManager.RemoveItemTask();
-        remove_item_task.execute(old_item);
+        ElasticSearchManager.RemoveItemTask removeItemTask = new ElasticSearchManager.RemoveItemTask();
+        removeItemTask.execute(oldItem);
 
-        ElasticSearchManager.AddItemTask add_item_task = new ElasticSearchManager.AddItemTask();
-        add_item_task.execute(new_item);
+        ElasticSearchManager.AddItemTask addItemTask = new ElasticSearchManager.AddItemTask();
+        addItemTask.execute(newItem);
 
         // use get() to access the return of AddItemTask/RemoveItemTask.
         // i.e. AddItemTask/RemoveItemTask returns a Boolean to indicate if the item was successfully
         // deleted/saved to the remote server
         try {
-            if(add_item_task.get() && remove_item_task.get()) {
+            if(addItemTask.get() && removeItemTask.get()) {
                 super.setIsExecuted(true);
             }
         } catch (InterruptedException | ExecutionException e) {

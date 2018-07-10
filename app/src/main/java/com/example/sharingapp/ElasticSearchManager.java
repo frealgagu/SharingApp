@@ -47,21 +47,21 @@ public class ElasticSearchManager {
     /**
      * Returns all remote items from server
      */
-    public static class GetItemListTask extends AsyncTask<Void,Void,ArrayList<Item>> {
+    public static class GetItemListTask extends AsyncTask<Void,Void,List<Item>> {
 
         @Override
-        protected ArrayList<Item> doInBackground(Void... params) {
+        protected List<Item> doInBackground(Void... params) {
 
             verifyConfig();
-            ArrayList<Item> items = new ArrayList<>();
-            String search_string = "{\"from\":0,\"size\":10000}";
+            List<Item> items = new ArrayList<>();
+            String searchString = "{\"from\":0,\"size\":10000}";
 
-            Search search = new Search.Builder(search_string).addIndex(INDEX).addType(ITEM_TYPE).build();
+            Search search = new Search.Builder(searchString).addIndex(INDEX).addType(ITEM_TYPE).build();
             try {
                 SearchResult execute = client.execute(search);
                 if (execute.isSucceeded()) {
                     //noinspection deprecation
-                    items = (ArrayList<Item>) execute.getSourceAsObjectList(Item.class);
+                    items = execute.getSourceAsObjectList(Item.class);
                     Log.i("ELASTICSEARCH","Item search was successful");
                 } else {
                     Log.i("ELASTICSEARCH", "No items found");
@@ -106,7 +106,6 @@ public class ElasticSearchManager {
         }
     }
 
-
     /**
      * Delete item from remote server using item_id
      */
@@ -117,9 +116,9 @@ public class ElasticSearchManager {
 
             verifyConfig();
             Boolean success = false;
-            Item item_to_delete = params[0];
+            Item itemToDelete = params[0];
             try {
-                DocumentResult execute = client.execute(new Delete.Builder(item_to_delete.getId()).index(INDEX).type(ITEM_TYPE).build());
+                DocumentResult execute = client.execute(new Delete.Builder(itemToDelete.getId()).index(INDEX).type(ITEM_TYPE).build());
                 if(execute.isSucceeded()) {
                     Log.i("ELASTICSEARCH", "Delete item was successful");
                     success = true;
@@ -134,26 +133,25 @@ public class ElasticSearchManager {
         }
     }
 
-
     /**
      * Returns all remote users from server
      */
-    public static class GetUserListTask extends AsyncTask<Void,Void,ArrayList<User>> {
+    public static class GetUserListTask extends AsyncTask<Void,Void,List<User>> {
 
         @Override
-        protected ArrayList<User> doInBackground(Void... params) {
+        protected List<User> doInBackground(Void... params) {
             verifyConfig();
 
-            ArrayList<User> users = new ArrayList<>();
-            String search_string = "{\"from\":0,\"size\":10000}";
+            List<User> users = new ArrayList<>();
+            String searchString = "{\"from\":0,\"size\":10000}";
 
-            Search search = new Search.Builder(search_string).addIndex(INDEX).addType(USER_TYPE).build();
+            Search search = new Search.Builder(searchString).addIndex(INDEX).addType(USER_TYPE).build();
             try {
                 SearchResult execute = client.execute(search);
                 if (execute.isSucceeded()) {
                     //noinspection deprecation
-                    List<User> remote_users = execute.getSourceAsObjectList(User.class);
-                    users.addAll(remote_users);
+                    List<User> remoteUsers = execute.getSourceAsObjectList(User.class);
+                    users.addAll(remoteUsers);
                     Log.i("ELASTICSEARCH","User search was successful");
                 } else {
                     Log.i("ELASTICSEARCH", "No users found");
@@ -198,9 +196,8 @@ public class ElasticSearchManager {
         }
     }
 
-
     /**
-     * Delete user from remote server using user_id
+     * Delete user from remote server using userId
      */
     public static class RemoveUserTask extends AsyncTask<User,Void,Boolean> {
 

@@ -9,83 +9,83 @@ import java.util.List;
 @SuppressWarnings({"WeakerAccess", "unused"})
 public class ItemListController {
 
-    private ItemList item_list;
+    private ItemList itemList;
 
-    public ItemListController(ItemList item_list){
-        this.item_list = item_list;
+    public ItemListController(ItemList itemList){
+        this.itemList = itemList;
     }
 
-    public void setItems(List<Item> item_list) {
-        this.item_list.setItems(item_list);
+    public void setItems(List<Item> itemList) {
+        this.itemList.setItems(itemList);
     }
 
     public List<Item> getItems() {
-        return item_list.getItems();
+        return itemList.getItems();
     }
 
-    public List<Item> getMyItems(String user_id) {
-        return item_list.getMyItems(user_id);
+    public List<Item> getMyItems(String userId) {
+        return itemList.getMyItems(userId);
     }
 
     public boolean addItem(Item item){
-        AddItemCommand add_item_command = new AddItemCommand(item);
-        add_item_command.execute();
-        return add_item_command.isExecuted();
+        AddItemCommand addItemCommand = new AddItemCommand(item);
+        addItemCommand.execute();
+        return addItemCommand.isExecuted();
     }
 
     public boolean deleteItem(Item item) {
-        DeleteItemCommand delete_item_command = new DeleteItemCommand(item);
-        delete_item_command.execute();
-        return delete_item_command.isExecuted();
+        DeleteItemCommand deleteItemCommand = new DeleteItemCommand(item);
+        deleteItemCommand.execute();
+        return deleteItemCommand.isExecuted();
     }
 
-    public boolean editItem(Item item, Item updated_item){
-        EditItemCommand edit_item_command = new EditItemCommand(item, updated_item);
-        edit_item_command.execute();
-        return edit_item_command.isExecuted();
+    public boolean editItem(Item item, Item updatedItem){
+        EditItemCommand editItemCommand = new EditItemCommand(item, updatedItem);
+        editItemCommand.execute();
+        return editItemCommand.isExecuted();
     }
 
     public Item getItem(int index) {
-        return item_list.getItem(index);
+        return itemList.getItem(index);
     }
 
     public boolean hasItem(Item item) {
-        return item_list.hasItem(item);
+        return itemList.hasItem(item);
     }
 
     public int getIndex(Item item) {
-        return item_list.getIndex(item);
+        return itemList.getIndex(item);
     }
 
     public int getSize() {
-        return item_list.getSize();
+        return itemList.getSize();
     }
 
-    public List<Item> filterItems(String user_id, String status) {
-        return item_list.filterItems(user_id, status);
+    public List<Item> filterItems(String userId, String status) {
+        return itemList.filterItems(userId, status);
     }
 
-    public List<Item> getSearchItems(String user_id) {
-        return item_list.getSearchItems(user_id);
+    public List<Item> getSearchItems(String userId) {
+        return itemList.getSearchItems(userId);
     }
 
     public List<Item> getBorrowedItemsByUsername(String username) {
-        return item_list.getBorrowedItemsByUsername(username);
+        return itemList.getBorrowedItemsByUsername(username);
     }
 
     public Item getItemById(String id){
-        return item_list.getItemById(id);
+        return itemList.getItemById(id);
     }
 
     public void addObserver(Observer observer) {
-        item_list.addObserver(observer);
+        itemList.addObserver(observer);
     }
 
     public void removeObserver(Observer observer) {
-        item_list.removeObserver(observer);
+        itemList.removeObserver(observer);
     }
 
     public void getRemoteItems(){
-        item_list.getRemoteItems();
+        itemList.getRemoteItems();
     }
 }

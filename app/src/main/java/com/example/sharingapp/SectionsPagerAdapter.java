@@ -12,34 +12,34 @@ import android.support.v4.app.FragmentPagerAdapter;
 @SuppressWarnings("WeakerAccess")
 public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
-    private String user_id;
+    private String userId;
 
-    public SectionsPagerAdapter(FragmentManager fm, String user_id) {
+    public SectionsPagerAdapter(FragmentManager fm, String userId) {
         super(fm);
-        this.user_id = user_id;
+        this.userId = userId;
     }
 
     @Override
     public Fragment getItem(int position) {
         Bundle bundle = new Bundle();
-        bundle.putString(Constants.USER_ID, user_id);
+        bundle.putString(Constants.USER_ID, userId);
         switch (position) {
             case 0:
-                AllItemsFragment all_items_fragment = new AllItemsFragment();
-                all_items_fragment.setArguments(bundle);
-                return all_items_fragment;
+                AllItemsFragment allItemsFragment = new AllItemsFragment();
+                allItemsFragment.setArguments(bundle);
+                return allItemsFragment;
             case 1:
-                AvailableItemsFragment available_items_fragment = new AvailableItemsFragment();
-                available_items_fragment.setArguments(bundle);
-                return available_items_fragment;
+                AvailableItemsFragment availableItemsFragment = new AvailableItemsFragment();
+                availableItemsFragment.setArguments(bundle);
+                return availableItemsFragment;
             case 2:
-                BiddedItemsFragment bidded_items_fragment = new BiddedItemsFragment();
-                bidded_items_fragment.setArguments(bundle);
-                return bidded_items_fragment;
+                BiddedItemsFragment biddedItemsFragment = new BiddedItemsFragment();
+                biddedItemsFragment.setArguments(bundle);
+                return biddedItemsFragment;
             case 3:
-                BorrowedItemsFragment borrowed_items_fragment = new BorrowedItemsFragment();
-                borrowed_items_fragment.setArguments(bundle);
-                return borrowed_items_fragment;
+                BorrowedItemsFragment borrowedItemsFragment = new BorrowedItemsFragment();
+                borrowedItemsFragment.setArguments(bundle);
+                return borrowedItemsFragment;
             default:
                 return null;
         }

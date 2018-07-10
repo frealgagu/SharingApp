@@ -28,9 +28,9 @@ public class BidList extends Observable {
     public BidList() {
     }
 
-    public void setBids(List<Bid> bid_list) {
+    public void setBids(List<Bid> bidList) {
         BIDS.clear();
-        BIDS.addAll(bid_list);
+        BIDS.addAll(bidList);
         notifyObservers();
     }
 
@@ -73,52 +73,51 @@ public class BidList extends Observable {
 
     // Used by getHighestBid and BidListController
     public List<Bid> getItemBids(String id){
-        List<Bid> item_bids = new ArrayList<>();
+        List<Bid> itemBids = new ArrayList<>();
         for (Bid b : BIDS) {
             if (b.getItemId().equals(id)) {
-                item_bids.add(b);
+                itemBids.add(b);
             }
         }
-        return item_bids;
+        return itemBids;
     }
 
     // Get highest bid_amount of all bids
     public Float getHighestBid(String id) {
-        List<Bid> item_bids = getItemBids(id);
+        List<Bid> itemBids = getItemBids(id);
 
-        if (item_bids.isEmpty()){
+        if (itemBids.isEmpty()){
             return null;
         }
 
-        Float highest_bid_amount = item_bids.get(0).getBidAmount(); // Initialize
-        for (Bid b : item_bids) {
-            if (b.getBidAmount() > highest_bid_amount) {
-                highest_bid_amount = b.getBidAmount();
+        Float highestBidAmount = itemBids.get(0).getBidAmount(); // Initialize
+        for (Bid b : itemBids) {
+            if (b.getBidAmount() > highestBidAmount) {
+                highestBidAmount = b.getBidAmount();
             }
         }
 
-        return highest_bid_amount;
+        return highestBidAmount;
     }
 
     public String getHighestBidder(String id) {
-        List<Bid> item_bids = getItemBids(id);
+        List<Bid> itemBids = getItemBids(id);
 
-        if (item_bids.isEmpty()){
+        if (itemBids.isEmpty()){
             return null;
         }
 
-        Float highest_bid_amount = item_bids.get(0).getBidAmount(); // Initialize
-        String highest_bidder = item_bids.get(0).getBidderUsername();
-        for (Bid b : item_bids) {
-            if (b.getBidAmount() > highest_bid_amount) {
-                highest_bid_amount = b.getBidAmount();
-                highest_bidder = b.getBidderUsername();
+        Float highestBidAmount = itemBids.get(0).getBidAmount(); // Initialize
+        String highestBidder = itemBids.get(0).getBidderUsername();
+        for (Bid b : itemBids) {
+            if (b.getBidAmount() > highestBidAmount) {
+                highestBidAmount = b.getBidAmount();
+                highestBidder = b.getBidderUsername();
             }
         }
 
-        return highest_bidder;
+        return highestBidder;
     }
-
 
     public void loadBids(Context context) {
         BIDS.clear();

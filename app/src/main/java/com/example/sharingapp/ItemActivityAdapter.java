@@ -27,21 +27,21 @@ public class ItemActivityAdapter extends ArrayAdapter<Item> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         Item item = getItem(position);
-        ItemController item_controller = new ItemController(item);
+        ItemController itemController = new ItemController(item);
 
-        String title = "Title: " + item_controller.getTitle();
-        String description = "Description: " + item_controller.getDescription();
-        Bitmap thumbnail = item_controller.getImage();
-        String status = "Status: " + item_controller.getStatus();
+        String title = "Title: " + itemController.getTitle();
+        String description = "Description: " + itemController.getDescription();
+        Bitmap thumbnail = itemController.getImage();
+        String status = "Status: " + itemController.getStatus();
 
         // Check if an existing view is being reused, otherwise inflate the view.
         if (convertView == null) {
             convertView = inflater.inflate(R.layout.itemlist_item, parent, false);
         }
 
-        TextView title_tv = convertView.findViewById(R.id.title_tv);
-        TextView status_tv = convertView.findViewById(R.id.status_tv);
-        TextView description_tv = convertView.findViewById(R.id.description_tv);
+        TextView titleTextView = convertView.findViewById(R.id.title_tv);
+        TextView statusTextView = convertView.findViewById(R.id.status_tv);
+        TextView descriptionTextView = convertView.findViewById(R.id.description_tv);
         ImageView photo = convertView.findViewById(R.id.image_view);
 
         if (thumbnail != null) {
@@ -50,9 +50,9 @@ public class ItemActivityAdapter extends ArrayAdapter<Item> {
             photo.setImageResource(android.R.drawable.ic_menu_gallery);
         }
 
-        title_tv.setText(title);
-        description_tv.setText(description);
-        status_tv.setText(status);
+        titleTextView.setText(title);
+        descriptionTextView.setText(description);
+        statusTextView.setText(status);
 
         return convertView;
     }

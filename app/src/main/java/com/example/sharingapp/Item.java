@@ -18,21 +18,21 @@ public class Item extends Observable {
     private String description;
     private Dimensions dimensions;
     private String status;
-    private Float minimum_bid;
+    private Float minimumBid;
     private User borrower;
-    private String owner_id;
+    private String ownerId;
     private transient Bitmap image;
-    private String image_base64;
+    private String imageBase64;
     private String id;
 
-    public Item(String title, String maker, String description, String owner_id, String minimum_bid, Bitmap image, String id) {
+    public Item(String title, String maker, String description, String ownerId, String minimumBid, Bitmap image, String id) {
         this.title = title;
         this.maker = maker;
         this.description = description;
         this.dimensions = null;
-        this.owner_id = owner_id;
+        this.ownerId = ownerId;
         this.status = "Available";
-        this.minimum_bid = Float.valueOf(minimum_bid);
+        this.minimumBid = Float.valueOf(minimumBid);
         this.borrower = null;
         addImage(image);
 
@@ -85,21 +85,21 @@ public class Item extends Observable {
     }
 
     public Float getMinBid() {
-        return this.minimum_bid;
+        return this.minimumBid;
     }
 
-    public void setMinBid(Float minimum_bid) {
-        this.minimum_bid = minimum_bid;
+    public void setMinBid(Float minimumBid) {
+        this.minimumBid = minimumBid;
         notifyObservers();
     }
 
-    public void setOwnerId(String owner_id) {
-        this.owner_id = owner_id;
+    public void setOwnerId(String ownerId) {
+        this.ownerId = ownerId;
         notifyObservers();
     }
 
     public String getOwnerId() {
-        return owner_id;
+        return ownerId;
     }
 
     public void setDimensions(String length, String width, String height) {
@@ -144,21 +144,21 @@ public class Item extends Observable {
         return null;
     }
 
-    public void addImage(Bitmap new_image){
-        if (new_image != null) {
-            image = new_image;
+    public void addImage(Bitmap newImage){
+        if (newImage != null) {
+            image = newImage;
             ByteArrayOutputStream byteArrayBitmapStream = new ByteArrayOutputStream();
-            new_image.compress(Bitmap.CompressFormat.PNG, 100, byteArrayBitmapStream);
+            newImage.compress(Bitmap.CompressFormat.PNG, 100, byteArrayBitmapStream);
 
             byte[] b = byteArrayBitmapStream.toByteArray();
-            image_base64 = Base64.encodeToString(b, Base64.DEFAULT);
+            imageBase64 = Base64.encodeToString(b, Base64.DEFAULT);
         }
         notifyObservers();
     }
 
     public Bitmap getImage(){
-        if (image == null && image_base64 != null) {
-            byte[] decodeString = Base64.decode(image_base64, Base64.DEFAULT);
+        if (image == null && imageBase64 != null) {
+            byte[] decodeString = Base64.decode(imageBase64, Base64.DEFAULT);
             image = BitmapFactory.decodeByteArray(decodeString, 0, decodeString.length);
             notifyObservers();
         }

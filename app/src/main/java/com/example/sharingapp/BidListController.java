@@ -16,8 +16,8 @@ public class BidListController {
         this.bidList = bidList;
     }
 
-    public void setBids(List<Bid> bid_list) {
-        this.bidList.setBids(bid_list);
+    public void setBids(List<Bid> bidList) {
+        this.bidList.setBids(bidList);
     }
 
     public List<Bid> getBids() {
@@ -25,25 +25,25 @@ public class BidListController {
     }
 
     public boolean addBid(Bid bid, Context context){
-        AddBidCommand add_bid_command = new AddBidCommand(bidList, bid, context);
-        add_bid_command.execute();
-        return add_bid_command.isExecuted();
+        AddBidCommand addBidCommand = new AddBidCommand(bidList, bid, context);
+        addBidCommand.execute();
+        return addBidCommand.isExecuted();
     }
 
     public boolean removeBid(Bid bid, Context context) {
-        DeleteBidCommand delete_bid_command = new DeleteBidCommand(bidList, bid, context);
-        delete_bid_command.execute();
-        return delete_bid_command.isExecuted();
+        DeleteBidCommand deleteBidCommand = new DeleteBidCommand(bidList, bid, context);
+        deleteBidCommand.execute();
+        return deleteBidCommand.isExecuted();
     }
 
     public boolean removeItemBids(String id, Context context) {
-        DeleteBidCommand delete_bid_command;
-        List<Bid> old_bids = bidList.getItemBids(id);
+        DeleteBidCommand deleteBidCommand;
+        List<Bid> oldBids = bidList.getItemBids(id);
 
-        for (Bid b : old_bids) {
-            delete_bid_command = new DeleteBidCommand(bidList, b, context);
-            delete_bid_command.execute();
-            if (!delete_bid_command.isExecuted()){
+        for (Bid b : oldBids) {
+            deleteBidCommand = new DeleteBidCommand(bidList, b, context);
+            deleteBidCommand.execute();
+            if (!deleteBidCommand.isExecuted()){
                 return false;
             }
         }

@@ -58,8 +58,8 @@ public class ItemController {
         item.setMinBid(bid);
     }
 
-    public void setOwnerId(String owner_id) {
-        item.setOwnerId(owner_id);
+    public void setOwnerId(String ownerId) {
+        item.setOwnerId(ownerId);
     }
 
     public String getOwnerId() {
@@ -98,8 +98,8 @@ public class ItemController {
         return item.getBorrower();
     }
 
-    public void addImage(Bitmap new_image){
-        item.addImage(new_image);
+    public void addImage(Bitmap newImage){
+        item.addImage(newImage);
     }
 
     public Bitmap getImage(){

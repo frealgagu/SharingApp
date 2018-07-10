@@ -16,18 +16,18 @@ import android.widget.Toast;
  */
 public class EditUserActivity extends AppCompatActivity implements Observer {
 
-    private UserList user_list = new UserList();
-    private UserListController user_list_controller = new UserListController(user_list);
+    private UserList userList = new UserList();
+    private UserListController userListController = new UserListController(userList);
 
     private User user;
     private EditText email;
     private TextView username;
     private Context context;
-    private boolean on_create_update = true;
+    private boolean onCreateUpdate = true;
 
-    private String email_str;
-    private String user_id;
-    private String username_str;
+    private String emailString;
+    private String userId;
+    private String usernameString;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,35 +35,35 @@ public class EditUserActivity extends AppCompatActivity implements Observer {
         setContentView(R.layout.activity_edit_user);
 
         Intent intent = getIntent(); // Get intent from MainActivity
-        user_id = intent.getStringExtra(Constants.USER_ID);
+        userId = intent.getStringExtra(Constants.USER_ID);
 
         username = (TextView) findViewById(R.id.username);
 
         context = getApplicationContext();
-        user_list_controller.addObserver(this);
-        user_list_controller.getRemoteUsers(); // First call to update()
-        on_create_update = false; // Suppress any further calls to update()
+        userListController.addObserver(this);
+        userListController.getRemoteUsers(); // First call to update()
+        onCreateUpdate = false; // Suppress any further calls to update()
     }
 
     public void saveUser(View view) {
-        email_str = email.getText().toString();
-        username_str = username.getText().toString();
+        emailString = email.getText().toString();
+        usernameString = username.getText().toString();
 
         if(!validateInput()){
             return;
         }
 
         // Reuse the user id
-        User updated_user = new User(username_str, email_str, user_id);
+        User updatedUser = new User(usernameString, emailString, userId);
 
-        boolean success = user_list_controller.editUser(user, updated_user);
+        boolean success = userListController.editUser(user, updatedUser);
         if (!success){
             return;
         }
 
         // End EditUserActivity
         final Intent intent = new Intent(this, MainActivity.class);
-        intent.putExtra(Constants.USER_ID, user_id);
+        intent.putExtra(Constants.USER_ID, userId);
 
         // Delay launch of MainActivity to allow server enough time to process request
         new Handler().postDelayed(new Runnable() {
@@ -82,41 +82,41 @@ public class EditUserActivity extends AppCompatActivity implements Observer {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        user_list_controller.removeObserver(this);
+        userListController.removeObserver(this);
     }
 
     /**
      * Only need to update the view from the onCreate method
      */
     public void update(){
-        if (on_create_update) {
+        if (onCreateUpdate) {
 
-            user = user_list_controller.getUserByUserId(user_id);
-            UserController user_controller = new UserController(user);
+            user = userListController.getUserByUserId(userId);
+            UserController userController = new UserController(user);
 
             username = (TextView) findViewById(R.id.username);
             email = (EditText) findViewById(R.id.email);
 
-            username.setText(user_controller.getUsername());
-            email.setText(user_controller.getEmail());
+            username.setText(userController.getUsername());
+            email.setText(userController.getEmail());
         }
     }
 
     private boolean validateInput(){
-        if (email_str.equals("")) {
+        if (emailString.equals("")) {
             email.setError("Empty field!");
             return false;
         }
 
-        if (!email_str.contains("@")) {
+        if (!emailString.contains("@")) {
             email.setError("Must be an email address!");
             return false;
         }
 
         // Check that username is unique AND username is changed (Note: if username was not changed
         // then this should be fine, because it was already unique.)
-        if (!user_list_controller.isUsernameAvailable(username_str) &&
-                !(user.getUsername().equals(username_str))){
+        if (!userListController.isUsernameAvailable(usernameString) &&
+                !(user.getUsername().equals(usernameString))){
             username.setError("Username already taken!");
             return false;
         }

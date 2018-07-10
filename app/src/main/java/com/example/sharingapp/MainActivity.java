@@ -17,7 +17,7 @@ import android.widget.Toast;
  */
 public class MainActivity extends AppCompatActivity {
 
-    private String user_id;
+    private String userId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,14 +25,14 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         Intent intent = getIntent(); // from LoginActivity
-        user_id = intent.getStringExtra(Constants.USER_ID);
+        userId = intent.getStringExtra(Constants.USER_ID);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
-        SectionsPagerAdapter mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager(), user_id);
+        SectionsPagerAdapter mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager(), userId);
 
         // Set up the ViewPager with the sections adapter.
         ViewPager mViewPager = (ViewPager) findViewById(R.id.container);
@@ -55,24 +55,24 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.search:
-                Intent search_intent = new Intent(this, SearchActivity.class);
-                search_intent.putExtra(Constants.USER_ID, user_id);
-                startActivity(search_intent);
+                Intent searchIntent = new Intent(this, SearchActivity.class);
+                searchIntent.putExtra(Constants.USER_ID, userId);
+                startActivity(searchIntent);
                 return true;
             case R.id.borrowed_items:
-                Intent borrowed_intent = new Intent(this, BorrowedItemsActivity.class);
-                borrowed_intent.putExtra(Constants.USER_ID, user_id);
-                startActivity(borrowed_intent);
+                Intent borrowedIntent = new Intent(this, BorrowedItemsActivity.class);
+                borrowedIntent.putExtra(Constants.USER_ID, userId);
+                startActivity(borrowedIntent);
                 return true;
             case R.id.edit_profile:
-                Intent profile_intent = new Intent(this, EditUserActivity.class);
-                profile_intent.putExtra(Constants.USER_ID, user_id);
-                startActivity(profile_intent);
+                Intent profileIntent = new Intent(this, EditUserActivity.class);
+                profileIntent.putExtra(Constants.USER_ID, userId);
+                startActivity(profileIntent);
                 return true;
             case R.id.logout:
-                Intent logout_intent = new Intent(this, LoginActivity.class);
+                Intent logoutIntent = new Intent(this, LoginActivity.class);
                 Toast.makeText(getApplicationContext(), "Goodbye", Toast.LENGTH_SHORT).show();
-                startActivity(logout_intent);
+                startActivity(logoutIntent);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -81,13 +81,13 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Intent logout_intent = new Intent(this, LoginActivity.class);
-        startActivity(logout_intent);
+        Intent logoutIntent = new Intent(this, LoginActivity.class);
+        startActivity(logoutIntent);
     }
 
     public void addItemActivity(View view) {
         Intent intent = new Intent(this, AddItemActivity.class);
-        intent.putExtra(Constants.USER_ID, user_id);
+        intent.putExtra(Constants.USER_ID, userId);
         startActivity(intent);
     }
 }

@@ -7,8 +7,8 @@ import android.widget.TextView;
 
 public class ViewUserActivity extends AppCompatActivity {
 
-    private UserList user_list = new UserList();
-    private UserListController user_list_controller = new UserListController(user_list);
+    private UserList userList = new UserList();
+    private UserListController userListController = new UserListController(userList);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -16,17 +16,17 @@ public class ViewUserActivity extends AppCompatActivity {
         setContentView(R.layout.activity_view_user);
 
         Intent intent = getIntent(); // Get intent from EditItemActivity
-        String username_str = intent.getStringExtra(Constants.BORROWER_USERNAME_STR);
+        String usernameString = intent.getStringExtra(Constants.BORROWER_USERNAME_STR);
 
         TextView username = (TextView) findViewById(R.id.username_right_tv);
         TextView email = (TextView) findViewById(R.id.email_right_tv);
 
-        user_list_controller.getRemoteUsers();
+        userListController.getRemoteUsers();
 
-        User user = user_list_controller.getUserByUsername(username_str);
-        UserController user_controller = new UserController(user);
+        User user = userListController.getUserByUsername(usernameString);
+        UserController userController = new UserController(user);
 
-        username.setText(username_str);
-        email.setText(user_controller.getEmail());
+        username.setText(usernameString);
+        email.setText(userController.getEmail());
     }
 }

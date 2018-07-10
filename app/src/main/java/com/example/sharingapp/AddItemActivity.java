@@ -30,8 +30,8 @@ public class AddItemActivity extends AppCompatActivity {
     private Bitmap image;
     private int REQUEST_CODE = 1;
 
-    private ItemList item_list = new ItemList();
-    private ItemListController item_list_controller = new ItemListController(item_list);
+    private ItemList itemList = new ItemList();
+    private ItemListController itemListController = new ItemListController(itemList);
 
     private Context context;
 
@@ -64,7 +64,7 @@ public class AddItemActivity extends AppCompatActivity {
         photo.setImageResource(android.R.drawable.ic_menu_gallery);
 
         context = getApplicationContext();
-        item_list_controller.getRemoteItems();
+        itemListController.getRemoteItems();
     }
 
     public void saveItem (View view) {
@@ -82,10 +82,10 @@ public class AddItemActivity extends AppCompatActivity {
         }
 
         Item item = new Item(titleString, makerString, descriptionString, userId, minBidString, image, null);
-        ItemController item_controller = new ItemController(item);
-        item_controller.setDimensions(lengthString, widthString, heightString);
+        ItemController itemController = new ItemController(item);
+        itemController.setDimensions(lengthString, widthString, heightString);
 
-        boolean success = item_list_controller.addItem(item);
+        boolean success = itemListController.addItem(item);
         if (!success){
             return;
         }
@@ -118,8 +118,8 @@ public class AddItemActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onActivityResult(int request_code, int result_code, Intent intent) {
-        if (request_code == REQUEST_CODE && result_code == RESULT_OK){
+    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        if (requestCode == REQUEST_CODE && resultCode == RESULT_OK){
             Bundle extras = intent.getExtras();
             image = (Bitmap) extras.get("data");
             photo.setImageBitmap(image);

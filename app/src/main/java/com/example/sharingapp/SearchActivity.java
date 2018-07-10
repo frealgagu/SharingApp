@@ -19,45 +19,45 @@ import java.util.Arrays;
  */
 public class SearchActivity extends AppCompatActivity implements Observer {
 
-    private UserList user_list = new UserList();
-    private UserListController user_list_controller = new UserListController(user_list);
+    private UserList userList = new UserList();
+    private UserListController userListController = new UserListController(userList);
 
-    private ItemList item_list = new ItemList();
-    private ItemListController item_list_controller = new ItemListController(item_list);
+    private ItemList itemList = new ItemList();
+    private ItemListController itemListController = new ItemListController(itemList);
 
-    private ListView all_items;
+    private ListView allItems;
     private ArrayAdapter<Item> adapter;
     private Context context;
-    private String user_id;
-    private EditText search_entry;
+    private String userId;
+    private EditText searchEntry;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
 
         Intent intent = getIntent(); // Get intent from MainActivity
-        user_id = intent.getStringExtra(Constants.USER_ID);
+        userId = intent.getStringExtra(Constants.USER_ID);
 
-        search_entry = (EditText) findViewById(R.id.search_entry);
+        searchEntry = (EditText) findViewById(R.id.search_entry);
 
         context = getApplicationContext();
 
-        item_list_controller.addObserver(this);
-        user_list_controller.getRemoteUsers();
-        item_list_controller.getRemoteItems();
-        item_list_controller.setItems(item_list_controller.getSearchItems(user_id));
+        itemListController.addObserver(this);
+        userListController.getRemoteUsers();
+        itemListController.getRemoteItems();
+        itemListController.setItems(itemListController.getSearchItems(userId));
 
         // When an item is long clicked, this starts ViewItemActivity
-        all_items.setOnItemLongClickListener(new android.widget.AdapterView.OnItemLongClickListener() {
+        allItems.setOnItemLongClickListener(new android.widget.AdapterView.OnItemLongClickListener() {
 
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int pos, long id) {
                 Item item = adapter.getItem(pos);
-                String item_id = item.getId();
+                String itemId = item.getId();
 
                 Intent intent = new Intent(context, ViewItemActivity.class);
-                intent.putExtra(Constants.USER_ID, user_id);
-                intent.putExtra(Constants.ITEM_ID, item_id);
+                intent.putExtra(Constants.USER_ID, userId);
+                intent.putExtra(Constants.ITEM_ID, itemId);
                 startActivity(intent);
 
                 return true;
@@ -68,74 +68,74 @@ public class SearchActivity extends AppCompatActivity implements Observer {
     @Override
     protected void onStart() {
         super.onStart();
-        search_entry.setText("");
-        item_list_controller.getRemoteItems();
-        item_list_controller.setItems(item_list_controller.getSearchItems(user_id));
+        searchEntry.setText("");
+        itemListController.getRemoteItems();
+        itemListController.setItems(itemListController.getSearchItems(userId));
     }
 
     @Override
     public void onBackPressed() {
-        Intent main_intent = new Intent(this, MainActivity.class);
-        main_intent.putExtra(Constants.USER_ID, user_id);
-        startActivity(main_intent);
+        Intent mainIntent = new Intent(this, MainActivity.class);
+        mainIntent.putExtra(Constants.USER_ID, userId);
+        startActivity(mainIntent);
     }
 
     protected void onDestroy() {
         super.onDestroy();
-        item_list_controller.removeObserver(this);
+        itemListController.removeObserver(this);
     }
 
     public void keywordSearch(View view) {
-        String entry = search_entry.getText().toString();
-        item_list_controller.getRemoteItems();
+        String entry = searchEntry.getText().toString();
+        itemListController.getRemoteItems();
         if (entry.equals("")) {
-            item_list_controller.setItems(item_list_controller.getSearchItems(user_id));
+            itemListController.setItems(itemListController.getSearchItems(userId));
             return;
         }
 
         ArrayList<String> keywords = new ArrayList<>();
         keywords.addAll(splitWords(entry));
 
-        ArrayList<Item> matching_items = new ArrayList<>();
-        for (Item i : item_list_controller.getSearchItems(user_id)) {
-            ArrayList<String> item_words = new ArrayList<>();
-            item_words.addAll(splitWords(i.getTitle()));
-            item_words.addAll(splitWords(i.getMaker()));
-            item_words.addAll(splitWords(i.getDescription()));
+        ArrayList<Item> matchingItems = new ArrayList<>();
+        for (Item i : itemListController.getSearchItems(userId)) {
+            ArrayList<String> itemWords = new ArrayList<>();
+            itemWords.addAll(splitWords(i.getTitle()));
+            itemWords.addAll(splitWords(i.getMaker()));
+            itemWords.addAll(splitWords(i.getDescription()));
 
-            for( String word : item_words ) {
+            for( String word : itemWords ) {
                 for (String key : keywords ) {
 
-                    if (word.equals(key) && !matching_items.contains(i)) {
-                        matching_items.add(i);
+                    if (word.equals(key) && !matchingItems.contains(i)) {
+                        matchingItems.add(i);
                     }
                 }
             }
         }
 
-        item_list_controller.setItems(matching_items);
+        itemListController.setItems(matchingItems);
 
-        if (matching_items.isEmpty()) {
+        if (matchingItems.isEmpty()) {
             Toast.makeText(context, "No match", Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(context, "Keyword found.", Toast.LENGTH_SHORT).show();
         }
     }
 
-    private ArrayList<String> splitWords(String item_string) {
-        ArrayList<String> item_words = new ArrayList<>();
-        item_words.addAll(Arrays.asList(item_string.split("[ ;,.?!@#$%^&*+-_=<>/]")));
+    private ArrayList<String> splitWords(String itemString) {
+        ArrayList<String> itemWords = new ArrayList<>();
+        itemWords.addAll(Arrays.asList(itemString.split("[ ;,.?!@#$%^&*+-_=<>/]")));
 
-        return item_words;
+        return itemWords;
     }
 
     /**
      * Update the view
      */
     public void update(){
-        all_items = (ListView) findViewById(R.id.all_items);
-        adapter = new ItemActivityAdapter(this, item_list_controller.getItems());
-        all_items.setAdapter(adapter);
+        allItems = (ListView) findViewById(R.id.all_items);
+        adapter = new ItemActivityAdapter(this, itemListController.getItems());
+        allItems.setAdapter(adapter);
         adapter.notifyDataSetChanged();
     }
 }

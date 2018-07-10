@@ -15,26 +15,14 @@ public class UserList extends Observable {
     public UserList() {
     }
 
-    public void setUsers(List<User> user_list) {
+    public void setUsers(List<User> userList) {
         USERS.clear();
-        USERS.addAll(user_list);
+        USERS.addAll(userList);
         notifyObservers();
     }
 
     public List<User> getUsers() {
         return new ArrayList<>(USERS);
-    }
-
-    @SuppressWarnings("unused")
-    public void addUser(User user) {
-        USERS.add(user);
-        notifyObservers();
-    }
-
-    @SuppressWarnings("unused")
-    public void deleteUser(User user) {
-        USERS.remove(user);
-        notifyObservers();
     }
 
     public User getUser(int index) {
@@ -54,25 +42,25 @@ public class UserList extends Observable {
         return null;
     }
 
-    public User getUserByUserId(String user_id){
+    public User getUserByUserId(String userId) {
         for (User u : USERS){
-            if (u.getId().equals(user_id)){
+            if (u.getId().equals(userId)){
                 return u;
             }
         }
         return null;
     }
 
-    public String getUsernameByUserId(String user_id){
+    public String getUsernameByUserId(String userId) {
         for (User u : USERS){
-            if (u.getId().equals(user_id)){
+            if (u.getId().equals(userId)){
                 return u.getUsername();
             }
         }
         return null;
     }
 
-    public String getUserIdByUsername(String username){
+    public String getUserIdByUsername(String username) {
         for (User u : USERS){
             if (u.getUsername().equals(username)){
                 return u.getId();
@@ -81,7 +69,7 @@ public class UserList extends Observable {
         return null;
     }
 
-    public boolean isUsernameAvailable(String username){
+    public boolean isUsernameAvailable(String username) {
         for (User u : USERS) {
             if (u.getUsername().equals(username)) {
                 return false;
@@ -91,12 +79,12 @@ public class UserList extends Observable {
     }
 
     public void getRemoteUsers(){
-        ElasticSearchManager.GetUserListTask get_user_list_task = new ElasticSearchManager.GetUserListTask();
-        get_user_list_task.execute();
+        ElasticSearchManager.GetUserListTask getUserListTask = new ElasticSearchManager.GetUserListTask();
+        getUserListTask.execute();
 
         try {
             USERS.clear();
-            USERS.addAll(get_user_list_task.get());
+            USERS.addAll(getUserListTask.get());
         } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
         }

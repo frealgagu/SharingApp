@@ -15,26 +15,14 @@ public class ItemList extends Observable {
     public ItemList() {
     }
 
-    public void setItems(List<Item> item_list) {
+    public void setItems(List<Item> itemList) {
         ITEMS.clear();
-        ITEMS.addAll(item_list);
+        ITEMS.addAll(itemList);
         notifyObservers();
     }
 
     public List<Item> getItems() {
         return new ArrayList<>(ITEMS);
-    }
-
-    @SuppressWarnings("unused")
-    public void addItem(Item item) {
-        ITEMS.add(item);
-        notifyObservers();
-    }
-
-    @SuppressWarnings("unused")
-    public void deleteItem(Item item) {
-        ITEMS.remove(item);
-        notifyObservers();
     }
 
     public Item getItem(int index) {
@@ -66,49 +54,49 @@ public class ItemList extends Observable {
     }
 
     // Used by AvailableItemsFragment, BorrowedItemsFragment, and BiddedItemsFragment
-    public List<Item> filterItems(String user_id, String status) {
-        List<Item> selected_items = new ArrayList<>();
+    public List<Item> filterItems(String userId, String status) {
+        List<Item> selectedItems = new ArrayList<>();
         for (Item i: ITEMS) {
-            if (i.getOwnerId().equals(user_id) && i.getStatus().equals(status)) {
-                selected_items.add(i);
+            if (i.getOwnerId().equals(userId) && i.getStatus().equals(status)) {
+                selectedItems.add(i);
             }
         }
-        return selected_items;
+        return selectedItems;
     }
 
     // Used by AllItemsFragment
-    public List<Item> getMyItems(String user_id) {
-        List<Item> selected_items = new ArrayList<>();
+    public List<Item> getMyItems(String userId) {
+        List<Item> selectedItems = new ArrayList<>();
         for (Item i: ITEMS) {
-            if (i.getOwnerId().equals(user_id)) {
-                selected_items.add(i);
+            if (i.getOwnerId().equals(userId)) {
+                selectedItems.add(i);
             }
         }
-        return selected_items;
+        return selectedItems;
     }
 
     // Used by SearchItemsActivity
-    public List<Item> getSearchItems(String user_id) {
-        List<Item> selected_items = new ArrayList<>();
+    public List<Item> getSearchItems(String userId) {
+        List<Item> selectedItems = new ArrayList<>();
         for (Item i: ITEMS) {
-            if (!i.getOwnerId().equals(user_id) && !i.getStatus().equals("Borrowed")) {
-                selected_items.add(i);
+            if (!i.getOwnerId().equals(userId) && !i.getStatus().equals("Borrowed")) {
+                selectedItems.add(i);
             }
         }
-        return selected_items;
+        return selectedItems;
     }
 
     // Used by BorrowedItemsActivity
     public List<Item> getBorrowedItemsByUsername(String username) {
-        List<Item> selected_items = new ArrayList<>();
+        List<Item> selectedItems = new ArrayList<>();
         for (Item i: ITEMS) {
             if (i != null && i.getBorrower() != null) {
                 if (i.getBorrowerUsername().equals(username)) {
-                    selected_items.add(i);
+                    selectedItems.add(i);
                 }
             }
         }
-        return selected_items;
+        return selectedItems;
     }
 
     public Item getItemById(String id){
@@ -120,13 +108,13 @@ public class ItemList extends Observable {
         return null;
     }
 
-    public void getRemoteItems(){
-        ElasticSearchManager.GetItemListTask get_item_list_task = new ElasticSearchManager.GetItemListTask();
-        get_item_list_task.execute();
+    public void getRemoteItems() {
+        ElasticSearchManager.GetItemListTask getItemListTask = new ElasticSearchManager.GetItemListTask();
+        getItemListTask.execute();
 
         try {
             ITEMS.clear();
-            ITEMS.addAll(get_item_list_task.get());
+            ITEMS.addAll(getItemListTask.get());
         } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
         }

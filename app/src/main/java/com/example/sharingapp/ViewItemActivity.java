@@ -15,140 +15,139 @@ import android.widget.Toast;
 
 public class ViewItemActivity extends AppCompatActivity implements Observer {
 
-    private ItemList item_list = new ItemList();
-    private ItemListController item_list_controller = new ItemListController(item_list);
+    private ItemList itemList = new ItemList();
+    private ItemListController itemListController = new ItemListController(itemList);
 
     private Item item;
-    private ItemController item_controller;
+    private ItemController itemController;
 
-    private BidList bid_list = new BidList();
-    private BidListController bid_list_controller = new BidListController(bid_list);
+    private BidList bidList = new BidList();
+    private BidListController bidListController = new BidListController(bidList);
 
     private Context context;
 
-    private UserList user_list = new UserList();
-    private UserListController user_list_controller = new UserListController(user_list);
+    private UserList userList = new UserList();
+    private UserListController userListController = new UserListController(userList);
 
     private Bitmap image;
     private ImageView photo;
 
-    private TextView title_tv;
-    private TextView maker_tv;
-    private TextView description_tv;
-    private TextView length_tv;
-    private TextView width_tv;
-    private TextView height_tv;
-    private TextView current_bid_right_tv;
-    private TextView current_bid_left_tv;
-    private EditText bid_amount;
-    private Button save_bid_button;
-    private Button return_item_button;
+    private TextView titleTextView;
+    private TextView makerTextView;
+    private TextView descriptionTextView;
+    private TextView lengthTextView;
+    private TextView widthTextView;
+    private TextView heightTextView;
+    private TextView currentBidRightTextView;
+    private TextView currentBidLeftTextView;
+    private EditText bidAmount;
+    private Button saveBidButton;
+    private Button returnItemButton;
 
-    private boolean on_create_update;
+    private boolean onCreateUpdate;
 
-    private String title_str;
-    private String maker_str;
-    private String description_str;
-    private String length_str;
-    private String width_str;
-    private String height_str;
-    private String user_id;
-    private String current_bid_amount_str;
-    private String new_bid_amount_str;
-    private String item_id;
+    private String titleString;
+    private String makerString;
+    private String descriptionString;
+    private String lengthString;
+    private String widthString;
+    private String heightString;
+    private String userId;
+    private String currentBidAmountString;
+    private String newBidAmountString;
+    private String itemId;
 
-    private Float new_bid_amount;
+    private Float newBidAmount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_item);
 
-        title_tv = (TextView) findViewById(R.id.title_right_tv);
-        maker_tv = (TextView) findViewById(R.id.maker_right_tv);
-        description_tv = (TextView) findViewById(R.id.description_right_tv);
-        length_tv = (TextView) findViewById(R.id.length_tv);
-        width_tv = (TextView) findViewById(R.id.width_tv);
-        height_tv = (TextView) findViewById(R.id.height_tv);
+        titleTextView = (TextView) findViewById(R.id.title_right_tv);
+        makerTextView = (TextView) findViewById(R.id.maker_right_tv);
+        descriptionTextView = (TextView) findViewById(R.id.description_right_tv);
+        lengthTextView = (TextView) findViewById(R.id.length_tv);
+        widthTextView = (TextView) findViewById(R.id.width_tv);
+        heightTextView = (TextView) findViewById(R.id.height_tv);
         photo = (ImageView) findViewById(R.id.image_view);
-        current_bid_right_tv = (TextView) findViewById(R.id.current_bid_right_tv);
-        current_bid_left_tv = (TextView) findViewById(R.id.current_bid_left_tv);
+        currentBidRightTextView = (TextView) findViewById(R.id.current_bid_right_tv);
+        currentBidLeftTextView = (TextView) findViewById(R.id.current_bid_left_tv);
 
-        bid_amount = (EditText) findViewById(R.id.bid_amount);
+        bidAmount = (EditText) findViewById(R.id.bid_amount);
 
-        save_bid_button = (Button) findViewById(R.id.save_bid_button);
-        return_item_button = (Button) findViewById(R.id.return_item_button);
+        saveBidButton = (Button) findViewById(R.id.save_bid_button);
+        returnItemButton = (Button) findViewById(R.id.return_item_button);
 
         Intent intent = getIntent(); // Get intent from BorrowedItemsActivity/SearchActivity
-        item_id = intent.getStringExtra(Constants.ITEM_ID);
-        user_id = intent.getStringExtra(Constants.USER_ID);
+        itemId = intent.getStringExtra(Constants.ITEM_ID);
+        userId = intent.getStringExtra(Constants.USER_ID);
 
         context = getApplicationContext();
 
-        on_create_update = false; // Suppress first call to update()
-        user_list_controller.getRemoteUsers();
+        onCreateUpdate = false; // Suppress first call to update()
+        userListController.getRemoteUsers();
 
-        on_create_update = true; // First call to update occurs now
-        bid_list_controller.loadBids(context);
-        bid_list_controller.addObserver(this);
-        item_list_controller.addObserver(this);
-        item_list_controller.getRemoteItems();
+        onCreateUpdate = true; // First call to update occurs now
+        bidListController.loadBids(context);
+        bidListController.addObserver(this);
+        itemListController.addObserver(this);
+        itemListController.getRemoteItems();
 
-        on_create_update = false; // Suppress any further calls to update()
+        onCreateUpdate = false; // Suppress any further calls to update()
     }
 
     @Override
     public void onBackPressed() {
-        Intent borrow_intent = new Intent(this, BorrowedItemsActivity.class);
-        borrow_intent.putExtra(Constants.USER_ID, user_id);
-        startActivity(borrow_intent);
+        Intent borrowIntent = new Intent(this, BorrowedItemsActivity.class);
+        borrowIntent.putExtra(Constants.USER_ID, userId);
+        startActivity(borrowIntent);
     }
 
     public void saveBid(View view) {
-        title_str = title_tv.getText().toString();
-        maker_str = maker_tv.getText().toString();
-        description_str = description_tv.getText().toString();
-        current_bid_amount_str = current_bid_right_tv.getText().toString();
-        new_bid_amount_str = bid_amount.getText().toString();
-        length_str = length_tv.getText().toString();
-        width_str = width_tv.getText().toString();
-        height_str = height_tv.getText().toString();
+        titleString = titleTextView.getText().toString();
+        makerString = makerTextView.getText().toString();
+        descriptionString = descriptionTextView.getText().toString();
+        currentBidAmountString = currentBidRightTextView.getText().toString();
+        newBidAmountString = bidAmount.getText().toString();
+        lengthString = lengthTextView.getText().toString();
+        widthString = widthTextView.getText().toString();
+        heightString = heightTextView.getText().toString();
 
         if(!validateInput()){ // Current bid amount must be higher than the previous bid
             return;
         }
 
-        String owner_id_str = item_controller.getOwnerId();
-        String status_str = "Bidded";
-        String minimum_bid_amount_str = item_controller.getMinBid().toString();
-        String username = user_list_controller.getUsernameByUserId(user_id);
+        String ownerIdString = itemController.getOwnerId();
+        String statusString = "Bidded";
+        String minimumBidAmountString = itemController.getMinBid().toString();
+        String username = userListController.getUsernameByUserId(userId);
 
-        Bid bid = new Bid(item_id, new_bid_amount, username);
+        Bid bid = new Bid(itemId, newBidAmount, username);
 
-        boolean success = bid_list_controller.addBid(bid, context);
+        boolean success = bidListController.addBid(bid, context);
         if (!success){
             return;
         }
 
         // Reuse the item id
-        Item updated_item = new Item(title_str, maker_str, description_str,owner_id_str,
-                minimum_bid_amount_str, image, item_id);
-        ItemController updated_item_controller = new ItemController(updated_item);
+        Item updatedItem = new Item(titleString, makerString, descriptionString,ownerIdString, minimumBidAmountString, image, itemId);
+        ItemController updatedItemController = new ItemController(updatedItem);
 
-        updated_item_controller.setStatus(status_str);
-        updated_item_controller.setDimensions(length_str, width_str, height_str);
+        updatedItemController.setStatus(statusString);
+        updatedItemController.setDimensions(lengthString, widthString, heightString);
 
-        success = item_list_controller.editItem(item, updated_item);
+        success = itemListController.editItem(item, updatedItem);
         if (!success){
             return;
         }
 
         // End ViewItemActivity
-        item_list_controller.removeObserver(this);
-        bid_list_controller.removeObserver(this);
+        itemListController.removeObserver(this);
+        bidListController.removeObserver(this);
 
         final Intent intent = new Intent(this, SearchActivity.class);
-        intent.putExtra(Constants.USER_ID, user_id);
+        intent.putExtra(Constants.USER_ID, userId);
 
         // Delay launch of SearchActivity to allow server enough time to process request
         new Handler().postDelayed(new Runnable() {
@@ -162,42 +161,42 @@ public class ViewItemActivity extends AppCompatActivity implements Observer {
     }
 
     public void update() {
-        if (on_create_update){
+        if (onCreateUpdate){
             // For all status options we do the following
-            item = item_list_controller.getItemById(item_id);
-            item_controller = new ItemController(item);
+            item = itemListController.getItemById(itemId);
+            itemController = new ItemController(item);
 
-            title_tv.setText(item_controller.getTitle());
-            maker_tv.setText(item_controller.getMaker());
-            description_tv.setText(item_controller.getDescription());
+            titleTextView.setText(itemController.getTitle());
+            makerTextView.setText(itemController.getMaker());
+            descriptionTextView.setText(itemController.getDescription());
 
-            length_tv.setText(item_controller.getLength());
-            width_tv.setText(item_controller.getWidth());
-            height_tv.setText(item_controller.getHeight());
+            lengthTextView.setText(itemController.getLength());
+            widthTextView.setText(itemController.getWidth());
+            heightTextView.setText(itemController.getHeight());
 
-            image = item_controller.getImage();
+            image = itemController.getImage();
             if (image != null) {
                 photo.setImageBitmap(image);
             } else {
                 photo.setImageResource(android.R.drawable.ic_menu_gallery);
             }
 
-            String status = item_controller.getStatus();
+            String status = itemController.getStatus();
 
             if (status.equals("Available") || status.equals("Bidded")) {
-                Float highest_bid = bid_list_controller.getHighestBid(item_id);
+                Float highestBid = bidListController.getHighestBid(itemId);
 
-                if (highest_bid == null) {
-                    current_bid_right_tv.setText(String.valueOf(item_controller.getMinBid()));
+                if (highestBid == null) {
+                    currentBidRightTextView.setText(String.valueOf(itemController.getMinBid()));
                 } else {
-                    current_bid_right_tv.setText(String.valueOf(highest_bid));
+                    currentBidRightTextView.setText(String.valueOf(highestBid));
                 }
             } else { // Borrowed
-                current_bid_right_tv.setVisibility(View.GONE);
-                current_bid_left_tv.setVisibility(View.GONE);
-                bid_amount.setVisibility(View.GONE);
-                save_bid_button.setVisibility(View.GONE);
-                return_item_button.setVisibility(View.VISIBLE);
+                currentBidRightTextView.setVisibility(View.GONE);
+                currentBidLeftTextView.setVisibility(View.GONE);
+                bidAmount.setVisibility(View.GONE);
+                saveBidButton.setVisibility(View.GONE);
+                returnItemButton.setVisibility(View.VISIBLE);
 
             }
         }
@@ -205,32 +204,32 @@ public class ViewItemActivity extends AppCompatActivity implements Observer {
 
     public void returnItem(View view) {
 
-        title_str = title_tv.getText().toString();
-        maker_str = maker_tv.getText().toString();
-        description_str = description_tv.getText().toString();
-        length_str = length_tv.getText().toString();
-        width_str = width_tv.getText().toString();
-        height_str = height_tv.getText().toString();
+        titleString = titleTextView.getText().toString();
+        makerString = makerTextView.getText().toString();
+        descriptionString = descriptionTextView.getText().toString();
+        lengthString = lengthTextView.getText().toString();
+        widthString = widthTextView.getText().toString();
+        heightString = heightTextView.getText().toString();
         String status = "Available";
-        String owner_id = item_controller.getOwnerId();
-        String minimum_bid = String.valueOf(item_controller.getMinBid());
+        String ownerId = itemController.getOwnerId();
+        String minimumBid = String.valueOf(itemController.getMinBid());
 
-        Item updated_item = new Item(title_str, maker_str, description_str, owner_id, minimum_bid, image, item_id);
-        ItemController updated_item_controller = new ItemController(updated_item);
-        updated_item_controller.setDimensions(length_str, width_str, height_str);
-        updated_item_controller.setStatus(status);
+        Item updatedItem = new Item(titleString, makerString, descriptionString, ownerId, minimumBid, image, itemId);
+        ItemController updatedItemController = new ItemController(updatedItem);
+        updatedItemController.setDimensions(lengthString, widthString, heightString);
+        updatedItemController.setStatus(status);
 
-        boolean success = item_list_controller.editItem(item, updated_item);
+        boolean success = itemListController.editItem(item, updatedItem);
         if (!success){
             return;
         }
 
         // End ViewItemActivity
-        item_list_controller.removeObserver(this);
-        bid_list_controller.removeObserver(this);
+        itemListController.removeObserver(this);
+        bidListController.removeObserver(this);
 
         final Intent intent = new Intent(this, MainActivity.class);
-        intent.putExtra(Constants.USER_ID, user_id);
+        intent.putExtra(Constants.USER_ID, userId);
 
         // Delay launch of MainActivity to allow server enough time to process request
         new Handler().postDelayed(new Runnable() {
@@ -243,16 +242,16 @@ public class ViewItemActivity extends AppCompatActivity implements Observer {
     }
 
     private boolean validateInput() {
-        if (new_bid_amount_str.equals("")) {
-            bid_amount.setError("Enter Bid!");
+        if (newBidAmountString.equals("")) {
+            bidAmount.setError("Enter Bid!");
             return false;
         }
 
-        Float current_bid_amount = Float.valueOf(current_bid_amount_str);
-        new_bid_amount = Float.valueOf(new_bid_amount_str);
+        Float currentBidAmount = Float.valueOf(currentBidAmountString);
+        newBidAmount = Float.valueOf(newBidAmountString);
 
-        if (new_bid_amount <= current_bid_amount){
-            bid_amount.setError("New bid amount must be higher than current bid amount!");
+        if (newBidAmount <= currentBidAmount){
+            bidAmount.setError("New bid amount must be higher than current bid amount!");
             return false;
         }
 

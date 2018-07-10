@@ -19,15 +19,15 @@ import java.util.List;
 @SuppressWarnings("WeakerAccess")
 public abstract class ItemsFragment extends Fragment implements Observer {
 
-    private ItemList item_list = new ItemList();
+    private ItemList itemList = new ItemList();
 
-    ItemListController item_list_controller = new ItemListController(item_list);
-    String user_id;
+    ItemListController itemListController = new ItemListController(itemList);
+    String userId;
     View rootView;
 
-    private ListView list_view;
+    private ListView listView;
     private ArrayAdapter<Item> adapter;
-    private List<Item> selected_items;
+    private List<Item> selectedItems;
     private LayoutInflater inflater;
     private ViewGroup container;
     private Context context;
@@ -38,7 +38,7 @@ public abstract class ItemsFragment extends Fragment implements Observer {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         context = getContext();
 
-        item_list_controller.getRemoteItems(); // Call to update() suppressed
+        itemListController.getRemoteItems(); // Call to update() suppressed
         update = true; // Future calls to update() permitted
 
         this.inflater = inflater;
@@ -49,34 +49,34 @@ public abstract class ItemsFragment extends Fragment implements Observer {
 
     public void setVariables(int resource, int id ) {
         rootView = inflater.inflate(resource, container, false);
-        list_view = rootView.findViewById(id);
-        selected_items = filterItems();
+        listView = rootView.findViewById(id);
+        selectedItems = filterItems();
     }
 
     public void setUserId(Bundle b) {
-        this.user_id = b.getString(Constants.USER_ID, user_id);
+        this.userId = b.getString(Constants.USER_ID, userId);
     }
 
     public void loadItems(Fragment fragment){
         this.fragment = fragment;
-        item_list_controller.addObserver(this);
-        item_list_controller.getRemoteItems();
+        itemListController.addObserver(this);
+        itemListController.getRemoteItems();
     }
 
     public void setFragmentOnItemLongClickListener(){
         // When item is long clicked, this starts EditItemActivity
-        list_view.setOnItemLongClickListener(new android.widget.AdapterView.OnItemLongClickListener() {
+        listView.setOnItemLongClickListener(new android.widget.AdapterView.OnItemLongClickListener() {
 
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int pos, long id) {
                 Item item = adapter.getItem(pos);
 
-                int meta_pos = item_list_controller.getIndex(item);
-                if (meta_pos >= 0) {
+                int metaPos = itemListController.getIndex(item);
+                if (metaPos >= 0) {
 
                     Intent edit = new Intent(context, EditItemActivity.class);
-                    edit.putExtra(Constants.USER_ID, user_id);
-                    edit.putExtra("position", meta_pos);
+                    edit.putExtra(Constants.USER_ID, userId);
+                    edit.putExtra("position", metaPos);
                     startActivity(edit);
                 }
                 return true;
@@ -86,7 +86,7 @@ public abstract class ItemsFragment extends Fragment implements Observer {
 
     /**
      * filterItems is implemented independently by AvailableItemsFragment, BorrowedItemsFragment and AllItemsFragment
-     * @return selected_items
+     * @return selectedItems
      */
     public abstract List<Item> filterItems();
 
@@ -96,7 +96,7 @@ public abstract class ItemsFragment extends Fragment implements Observer {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        item_list_controller.removeObserver(this);
+        itemListController.removeObserver(this);
     }
 
     /**
@@ -104,9 +104,9 @@ public abstract class ItemsFragment extends Fragment implements Observer {
      */
     public void update(){
         if (update) {
-            selected_items = filterItems(); // Ensure items are filtered
-            adapter = new ItemFragmentAdapter(context, selected_items, fragment);
-            list_view.setAdapter(adapter);
+            selectedItems = filterItems(); // Ensure items are filtered
+            adapter = new ItemFragmentAdapter(context, selectedItems, fragment);
+            listView.setAdapter(adapter);
             adapter.notifyDataSetChanged();
         }
     }

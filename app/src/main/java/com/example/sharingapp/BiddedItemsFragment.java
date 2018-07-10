@@ -26,6 +26,6 @@ public class BiddedItemsFragment extends ItemsFragment {
 
     public List<Item> filterItems() {
         String status = "Bidded";
-        return item_list_controller.filterItems(user_id, status);
+        return itemListController.filterItems(userId, status);
     }
 }

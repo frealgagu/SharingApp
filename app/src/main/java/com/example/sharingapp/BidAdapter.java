@@ -25,21 +25,21 @@ public class BidAdapter extends ArrayAdapter<Bid> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         Bid bid = getItem(position);
-        BidController bid_controller = new BidController(bid);
+        BidController bidController = new BidController(bid);
 
-        String bidder = "Bidder: " + bid_controller.getBidderUsername();
-        String bid_amount = "Bid: " + bid_controller.getBidAmount();
+        String bidder = "Bidder: " + bidController.getBidderUsername();
+        String bidAmount = "Bid: " + bidController.getBidAmount();
 
         // Check if an existing view is being reused, otherwise inflate the view.
         if (convertView == null) {
             convertView = inflater.inflate(R.layout.bidlist_bid, parent, false);
         }
 
-        TextView bidder_tv = convertView.findViewById(R.id.bidder_tv);
-        TextView bid_amount_tv = convertView.findViewById(R.id.bid_amount_tv);
+        TextView bidderTextView = convertView.findViewById(R.id.bidder_tv);
+        TextView bidAmountTextView = convertView.findViewById(R.id.bid_amount_tv);
 
-        bidder_tv.setText(bidder);
-        bid_amount_tv.setText(bid_amount);
+        bidderTextView.setText(bidder);
+        bidAmountTextView.setText(bidAmount);
 
         return convertView;
     }

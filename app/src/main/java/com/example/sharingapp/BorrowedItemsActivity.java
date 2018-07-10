@@ -44,15 +44,14 @@ public class BorrowedItemsActivity extends AppCompatActivity implements Observer
 
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int pos, long id) {
-
                 Item item = adapter.getItem(pos);
-                String item_id = item.getId();
+                String itemId = item.getId();
 
                 itemListController.removeObserver(BorrowedItemsActivity.this);
 
                 Intent intent = new Intent(context, ViewItemActivity.class);
                 intent.putExtra(Constants.USER_ID, userId);
-                intent.putExtra(Constants.ITEM_ID, item_id);
+                intent.putExtra(Constants.ITEM_ID, itemId);
                 startActivity(intent);
 
                 return true;
@@ -62,9 +61,9 @@ public class BorrowedItemsActivity extends AppCompatActivity implements Observer
 
     @Override
     public void onBackPressed() {
-        Intent main_intent = new Intent(this, MainActivity.class);
-        main_intent.putExtra(Constants.USER_ID, userId);
-        startActivity(main_intent);
+        Intent mainIntent = new Intent(this, MainActivity.class);
+        mainIntent.putExtra(Constants.USER_ID, userId);
+        startActivity(mainIntent);
     }
 
     /**

@@ -15,24 +15,24 @@ import java.util.List;
 
 public class ViewItemBidsActivity extends AppCompatActivity implements Observer {
 
-    private BidList bid_list = new BidList();
-    private BidListController bid_list_controller = new BidListController(bid_list);
+    private BidList bidList = new BidList();
+    private BidListController bidListController = new BidListController(bidList);
 
-    private List<Bid> item_bid_list; // Bids placed on the item
+    private List<Bid> itemBidList; // Bids placed on the item
 
-    private ItemList item_list = new ItemList();
-    private ItemListController item_list_controller = new ItemListController(item_list);
+    private ItemList itemList = new ItemList();
+    private ItemListController itemListController = new ItemListController(itemList);
 
-    private UserList user_list = new UserList();
-    private UserListController user_list_controller = new UserListController(user_list);
+    private UserList userList = new UserList();
+    private UserListController userListController = new UserListController(userList);
 
     private Context context;
 
-    private ListView item_bids;
+    private ListView itemBids;
     private ArrayAdapter<Bid> adapter;
 
-    private String user_id;
-    private String item_id;
+    private String userId;
+    private String itemId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,66 +40,66 @@ public class ViewItemBidsActivity extends AppCompatActivity implements Observer 
         setContentView(R.layout.activity_view_item_bids);
 
         Intent intent = getIntent(); // Get intent from EditItemActivity
-        user_id = intent.getStringExtra(Constants.USER_ID);
-        item_id = intent.getStringExtra(Constants.ITEM_ID);
+        userId = intent.getStringExtra(Constants.USER_ID);
+        itemId = intent.getStringExtra(Constants.ITEM_ID);
 
         context = getApplicationContext();
 
-        bid_list_controller.loadBids(context);
-        bid_list_controller.addObserver(this);
-        item_bid_list = bid_list_controller.getItemBids(item_id);
+        bidListController.loadBids(context);
+        bidListController.addObserver(this);
+        itemBidList = bidListController.getItemBids(itemId);
 
-        item_list_controller.addObserver(this);
-        item_list_controller.getRemoteItems();
-        user_list_controller.getRemoteUsers();
+        itemListController.addObserver(this);
+        itemListController.getRemoteItems();
+        userListController.getRemoteUsers();
     }
 
     public void acceptBid(View view) {
-        int pos = item_bids.getPositionForView(view);
+        int pos = itemBids.getPositionForView(view);
 
         Bid bid = adapter.getItem(pos);
-        BidController bid_controller = new BidController(bid);
+        BidController bidController = new BidController(bid);
 
-        Item item = item_list_controller.getItemById(item_id);
-        ItemController item_controller = new ItemController(item);
+        Item item = itemListController.getItemById(itemId);
+        ItemController itemController = new ItemController(item);
 
-        String borrower_username = bid_controller.getBidderUsername();
-        User borrower = user_list_controller.getUserByUsername(borrower_username);
+        String borrowerUsername = bidController.getBidderUsername();
+        User borrower = userListController.getUserByUsername(borrowerUsername);
 
-        String title = item_controller.getTitle();
-        String maker = item_controller.getMaker();
-        String description = item_controller.getDescription();
-        String owner_id = item_controller.getOwnerId();
-        String minimum_bid = item_controller.getMinBid().toString();
-        Bitmap image = item_controller.getImage();
-        String length = item_controller.getLength();
-        String width = item_controller.getWidth();
-        String height = item_controller.getHeight();
+        String title = itemController.getTitle();
+        String maker = itemController.getMaker();
+        String description = itemController.getDescription();
+        String ownerId = itemController.getOwnerId();
+        String minimumBid = itemController.getMinBid().toString();
+        Bitmap image = itemController.getImage();
+        String length = itemController.getLength();
+        String width = itemController.getWidth();
+        String height = itemController.getHeight();
         String status = "Borrowed";
 
-        Item updated_item = new Item(title, maker, description, owner_id, minimum_bid, image, item_id);
-        ItemController updated_item_controller = new ItemController(updated_item);
-        updated_item_controller.setDimensions(length, width, height);
-        updated_item_controller.setStatus(status);
-        updated_item_controller.setBorrower(borrower);
+        Item updatedItem = new Item(title, maker, description, ownerId, minimumBid, image, itemId);
+        ItemController updatedItemController = new ItemController(updatedItem);
+        updatedItemController.setDimensions(length, width, height);
+        updatedItemController.setStatus(status);
+        updatedItemController.setBorrower(borrower);
 
-        boolean success = item_list_controller.editItem(item, updated_item);
+        boolean success = itemListController.editItem(item, updatedItem);
         if (!success){
             return;
         }
 
         // Delete all bids related to that item.
-        success =  bid_list_controller.removeItemBids(item_id, context);
+        success =  bidListController.removeItemBids(itemId, context);
         if (!success){
             return;
         }
 
-        item_list_controller.removeObserver(this);
-        bid_list_controller.removeObserver(this);
+        itemListController.removeObserver(this);
+        bidListController.removeObserver(this);
 
         // End ViewItemBidsActivity
         final Intent intent = new Intent(this, MainActivity.class);
-        intent.putExtra(Constants.USER_ID, user_id);
+        intent.putExtra(Constants.USER_ID, userId);
 
         // Delay launch of MainActivity to allow server enough time to process request
         new Handler().postDelayed(new Runnable() {
@@ -112,49 +112,49 @@ public class ViewItemBidsActivity extends AppCompatActivity implements Observer 
     }
 
     public void declineBid(View view) {
-        int pos = item_bids.getPositionForView(view);
+        int pos = itemBids.getPositionForView(view);
 
         Bid bid = adapter.getItem(pos);
 
-        Item item = item_list_controller.getItemById(item_id);
-        ItemController item_controller = new ItemController(item);
+        Item item = itemListController.getItemById(itemId);
+        ItemController itemController = new ItemController(item);
 
-        String title = item_controller.getTitle();
-        String maker = item_controller.getMaker();
-        String description = item_controller.getDescription();
-        String owner_id = item_controller.getOwnerId();
-        String minimum_bid = item_controller.getMinBid().toString();
-        Bitmap image = item_controller.getImage();
-        String length = item_controller.getLength();
-        String width = item_controller.getWidth();
-        String height = item_controller.getHeight();
-        String status = item_controller.getStatus();
+        String title = itemController.getTitle();
+        String maker = itemController.getMaker();
+        String description = itemController.getDescription();
+        String ownerId = itemController.getOwnerId();
+        String minimumBid = itemController.getMinBid().toString();
+        Bitmap image = itemController.getImage();
+        String length = itemController.getLength();
+        String width = itemController.getWidth();
+        String height = itemController.getHeight();
+        String status = itemController.getStatus();
 
         // Delete selected bid.
-        Boolean success = bid_list_controller.removeBid(bid, context);
+        Boolean success = bidListController.removeBid(bid, context);
         if (!success){
             return;
         }
 
-        item_bid_list.remove(bid);
-        bid_list_controller.saveBids(context); // Save the changes, call to update
+        itemBidList.remove(bid);
+        bidListController.saveBids(context); // Save the changes, call to update
 
-        if (item_bid_list.isEmpty()) {
+        if (itemBidList.isEmpty()) {
             status = "Available";
         }
 
-        Item updated_item = new Item(title, maker, description, owner_id, minimum_bid, image, item_id);
-        ItemController updated_item_controller = new ItemController(updated_item);
-        updated_item_controller.setDimensions(length, width, height);
-        updated_item_controller.setStatus(status);
+        Item updatedItem = new Item(title, maker, description, ownerId, minimumBid, image, itemId);
+        ItemController updatedItemController = new ItemController(updatedItem);
+        updatedItemController.setDimensions(length, width, height);
+        updatedItemController.setStatus(status);
 
-        success = item_list_controller.editItem(item, updated_item);
+        success = itemListController.editItem(item, updatedItem);
         if (!success){
             return;
         }
 
-        item_list_controller.removeObserver(this);
-        bid_list_controller.removeObserver(this);
+        itemListController.removeObserver(this);
+        bidListController.removeObserver(this);
 
         if (status.equals("Available")){ // No bids remain
             Toast.makeText(context, "All bids declined.", Toast.LENGTH_SHORT).show();
@@ -165,7 +165,7 @@ public class ViewItemBidsActivity extends AppCompatActivity implements Observer 
 
         // End ViewItemBidsActivity
         final Intent intent = new Intent(this, MainActivity.class);
-        intent.putExtra(Constants.USER_ID, user_id);
+        intent.putExtra(Constants.USER_ID, userId);
 
         // Delay launch of MainActivity to allow server enough time to process request
         new Handler().postDelayed(new Runnable() {
@@ -178,42 +178,42 @@ public class ViewItemBidsActivity extends AppCompatActivity implements Observer 
     }
 
     public void declineAllBids(View view) {
-        Item item = item_list_controller.getItemById(item_id);
-        ItemController item_controller = new ItemController(item);
+        Item item = itemListController.getItemById(itemId);
+        ItemController itemController = new ItemController(item);
 
-        String title = item_controller.getTitle();
-        String maker = item_controller.getMaker();
-        String description = item_controller.getDescription();
-        String owner_id = item_controller.getOwnerId();
-        String minimum_bid = item_controller.getMinBid().toString();
-        Bitmap image = item_controller.getImage();
-        String length = item_controller.getLength();
-        String width = item_controller.getWidth();
-        String height = item_controller.getHeight();
+        String title = itemController.getTitle();
+        String maker = itemController.getMaker();
+        String description = itemController.getDescription();
+        String ownerId = itemController.getOwnerId();
+        String minimumBid = itemController.getMinBid().toString();
+        Bitmap image = itemController.getImage();
+        String length = itemController.getLength();
+        String width = itemController.getWidth();
+        String height = itemController.getHeight();
         String status = "Available";
 
-        Item updated_item = new Item(title, maker, description, owner_id, minimum_bid, image, item_id);
-        ItemController updated_item_controller = new ItemController(updated_item);
-        updated_item_controller.setDimensions(length, width, height);
-        updated_item_controller.setStatus(status);
+        Item updatedItem = new Item(title, maker, description, ownerId, minimumBid, image, itemId);
+        ItemController updatedItemController = new ItemController(updatedItem);
+        updatedItemController.setDimensions(length, width, height);
+        updatedItemController.setStatus(status);
 
-        boolean success = item_list_controller.editItem(item, updated_item);
+        boolean success = itemListController.editItem(item, updatedItem);
         if (!success){
             return;
         }
 
         // Delete all bids related to that item.
-        success =  bid_list_controller.removeItemBids(item_id, context);
+        success =  bidListController.removeItemBids(itemId, context);
         if (!success){
             return;
         }
 
-        item_list_controller.removeObserver(this);
-        bid_list_controller.removeObserver(this);
+        itemListController.removeObserver(this);
+        bidListController.removeObserver(this);
 
         // End ViewItemBidsActivity
         final Intent intent = new Intent(this, MainActivity.class);
-        intent.putExtra(Constants.USER_ID, user_id);
+        intent.putExtra(Constants.USER_ID, userId);
 
         // Delay launch of MainActivity to allow server enough time to process request
         new Handler().postDelayed(new Runnable() {
@@ -229,9 +229,9 @@ public class ViewItemBidsActivity extends AppCompatActivity implements Observer 
      * Update the view
      */
     public void update() {
-        item_bids = (ListView) findViewById(R.id.item_bids);
-        adapter = new BidAdapter(this, item_bid_list);
-        item_bids.setAdapter(adapter);
+        itemBids = (ListView) findViewById(R.id.item_bids);
+        adapter = new BidAdapter(this, itemBidList);
+        itemBids.setAdapter(adapter);
         adapter.notifyDataSetChanged();
     }
 }

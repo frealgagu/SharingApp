@@ -29,24 +29,24 @@ public class ItemFragmentAdapter extends ArrayAdapter<Item> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         Item item = getItem(position);
-        ItemController item_controller = new ItemController(item);
+        ItemController itemController = new ItemController(item);
 
-        String title = "Title: " + item_controller.getTitle();
-        String description = "Description: " + item_controller.getDescription();
-        Bitmap thumbnail = item_controller.getImage();
-        String status = "Status: " + item_controller.getStatus();
+        String title = "Title: " + itemController.getTitle();
+        String description = "Description: " + itemController.getDescription();
+        Bitmap thumbnail = itemController.getImage();
+        String status = "Status: " + itemController.getStatus();
 
         // Check if an existing view is being reused, otherwise inflate the view.
         if (convertView == null) {
             convertView = inflater.inflate(R.layout.itemlist_item, parent, false);
         }
 
-        TextView title_tv = convertView.findViewById(R.id.title_tv);
-        TextView status_tv = convertView.findViewById(R.id.status_tv);
-        TextView description_tv = convertView.findViewById(R.id.description_tv);
+        TextView titleTextView = convertView.findViewById(R.id.title_tv);
+        TextView statusTextView = convertView.findViewById(R.id.status_tv);
+        TextView descriptionTextView = convertView.findViewById(R.id.description_tv);
         ImageView photo = convertView.findViewById(R.id.image_view);
-        TextView bidder_tv = convertView.findViewById(R.id.bidder_tv);
-        TextView highest_bid_tv = convertView.findViewById(R.id.highest_bid_tv);
+        TextView bidderTextView = convertView.findViewById(R.id.bidder_tv);
+        TextView highestBidTextView = convertView.findViewById(R.id.highest_bid_tv);
 
         if (thumbnail != null) {
             photo.setImageBitmap(thumbnail);
@@ -54,33 +54,33 @@ public class ItemFragmentAdapter extends ArrayAdapter<Item> {
             photo.setImageResource(android.R.drawable.ic_menu_gallery);
         }
 
-        title_tv.setText(title);
-        description_tv.setText(description);
+        titleTextView.setText(title);
+        descriptionTextView.setText(description);
 
         // AllItemFragments: itemlist_item shows title, description and status
         if (fragment instanceof AllItemsFragment ) {
-            status_tv.setText(status);
+            statusTextView.setText(status);
         }
 
         // BorrowedItemsFragment/AvailableItemsFragment: itemlist_item shows title and description only
         if (fragment instanceof BorrowedItemsFragment || fragment instanceof AvailableItemsFragment
                 || fragment instanceof BiddedItemsFragment) {
-            status_tv.setVisibility(View.GONE);
+            statusTextView.setVisibility(View.GONE);
         }
 
         //  BiddedItemsFragment: itemlist_item shows bidder and highest bid
         if (fragment instanceof BiddedItemsFragment) {
-            BidList bid_list = new BidList();
-            BidListController bid_list_controller = new BidListController(bid_list);
-            bid_list_controller.loadBids(parent.getContext());
+            BidList bidList = new BidList();
+            BidListController bidListController = new BidListController(bidList);
+            bidListController.loadBids(parent.getContext());
 
-            String bidder = "Bidder: " + bid_list_controller.getHighestBidder(item_controller.getId());
-            String highest_bid = "Highest Bid: " + bid_list_controller.getHighestBid(item_controller.getId());
+            String bidder = "Bidder: " + bidListController.getHighestBidder(itemController.getId());
+            String highestBid = "Highest Bid: " + bidListController.getHighestBid(itemController.getId());
 
-            bidder_tv.setVisibility(View.VISIBLE);
-            highest_bid_tv.setVisibility(View.VISIBLE);
-            bidder_tv.setText(bidder);
-            highest_bid_tv.setText(highest_bid);
+            bidderTextView.setVisibility(View.VISIBLE);
+            highestBidTextView.setVisibility(View.VISIBLE);
+            bidderTextView.setText(bidder);
+            highestBidTextView.setText(highestBid);
         }
 
         return convertView;
