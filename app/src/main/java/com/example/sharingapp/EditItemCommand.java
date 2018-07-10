@@ -1,27 +1,37 @@
 package com.example.sharingapp;
 
-import android.content.Context;
+import java.util.concurrent.ExecutionException;
 
 /**
- * Command to edit pre-existing item
+ * Command used to edit pre-existing item
  */
 public class EditItemCommand extends Command {
-    private ItemList item_list;
     private Item old_item;
     private Item new_item;
-    private Context context;
 
-    public EditItemCommand(ItemList item_list, Item old_item, Item new_item, Context context) {
-        this.item_list = item_list;
+    public EditItemCommand(Item old_item, Item new_item) {
         this.old_item = old_item;
         this.new_item = new_item;
-        this.context = context;
     }
 
-    // Delete the old item locally, save the new item locally
+    // Delete the old item remotely, save the new item remotely to server
     public void execute() {
-        item_list.deleteItem(old_item);
-        item_list.addItem(new_item);
-        super.setIsExecuted(item_list.saveItems(context));
+        ElasticSearchManager.RemoveItemTask remove_item_task = new ElasticSearchManager.RemoveItemTask();
+        remove_item_task.execute(old_item);
+
+        ElasticSearchManager.AddItemTask add_item_task = new ElasticSearchManager.AddItemTask();
+        add_item_task.execute(new_item);
+
+        // use get() to access the return of AddItemTask/RemoveItemTask.
+        // i.e. AddItemTask/RemoveItemTask returns a Boolean to indicate if the item was successfully
+        // deleted/saved to the remote server
+        try {
+            if(add_item_task.get() && remove_item_task.get()) {
+                super.setIsExecuted(true);
+            }
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+            super.setIsExecuted(false);
+        }
     }
 }

@@ -22,7 +22,7 @@ public class ItemFragmentAdapter extends ArrayAdapter<Item> {
 
     public ItemFragmentAdapter(Context context, ArrayList<Item> items, Fragment fragment) {
         super(context, 0, items);
-        this.inflater = LayoutInflater.from(context);
+        inflater = LayoutInflater.from(context);
         this.fragment = fragment;
         this.context = context;
     }

@@ -41,7 +41,7 @@ public class EditUserActivity extends AppCompatActivity implements Observer {
 
         context = getApplicationContext();
         user_list_controller.addObserver(this);
-        user_list_controller.loadUsers(context); // First call to update()
+        user_list_controller.getRemoteUsers(); // First call to update()
         on_create_update = false; // Suppress any further calls to update()
     }
 
@@ -56,7 +56,7 @@ public class EditUserActivity extends AppCompatActivity implements Observer {
         // Reuse the user id
         User updated_user = new User(username_str, email_str, user_id);
 
-        boolean success = user_list_controller.editUser(user, updated_user, context);
+        boolean success = user_list_controller.editUser(user, updated_user);
         if (!success){
             return;
         }
@@ -64,8 +64,16 @@ public class EditUserActivity extends AppCompatActivity implements Observer {
         // End EditUserActivity
         final Intent intent = new Intent(this, MainActivity.class);
         intent.putExtra("user_id", user_id);
-        Toast.makeText(context, "Profile edited.", Toast.LENGTH_SHORT).show();
-        startActivity(intent);
+
+        // Delay launch of MainActivity to allow server enough time to process request
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(context, "Profile edited.", Toast.LENGTH_SHORT).show();
+                startActivity(intent);
+            }
+        }, 750);
+
     }
 
     /**

@@ -1,18 +1,7 @@
 package com.example.sharingapp;
 
-import android.content.Context;
-
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
 
 /**
  * UserList class
@@ -20,7 +9,6 @@ import java.util.ArrayList;
 public class UserList extends Observable {
 
     private static ArrayList<User> users;
-    private String FILENAME = "users.sav";
 
     public UserList() {
         users = new ArrayList<User>();
@@ -99,42 +87,15 @@ public class UserList extends Observable {
         return true;
     }
 
-    public void loadUsers(Context context) {
+    public void getRemoteUsers(){
+        ElasticSearchManager.GetUserListTask get_user_list_task = new ElasticSearchManager.GetUserListTask();
+        get_user_list_task.execute();
 
         try {
-            FileInputStream fis = context.openFileInput(FILENAME);
-            InputStreamReader isr = new InputStreamReader(fis);
-            Gson gson = new Gson();
-            Type listType = new TypeToken<ArrayList<User>>() {}.getType();
-            users = gson.fromJson(isr, listType); // temporary
-            fis.close();
-        } catch (FileNotFoundException e) {
-            users = new ArrayList<User>();
-        } catch (IOException e) {
-            users = new ArrayList<User>();
+            users = get_user_list_task.get();
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
         }
         notifyObservers();
-    }
-
-    /**
-     * @param context
-     * @return true: if save is successful, false: if save is unsuccessful
-     */
-    public boolean saveUsers(Context context) {
-        try {
-            FileOutputStream fos = context.openFileOutput(FILENAME, 0);
-            OutputStreamWriter osw = new OutputStreamWriter(fos);
-            Gson gson = new Gson();
-            gson.toJson(users, osw);
-            osw.flush();
-            fos.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-            return false;
-        } catch (IOException e) {
-            e.printStackTrace();
-            return false;
-        }
-        return true;
     }
 }

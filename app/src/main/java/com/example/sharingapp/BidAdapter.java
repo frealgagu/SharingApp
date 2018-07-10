@@ -19,8 +19,8 @@ public class BidAdapter extends ArrayAdapter<Bid> {
 
     public BidAdapter(Context context, ArrayList<Bid> bids) {
         super(context, 0, bids);
-        this.context = context;
         this.inflater = LayoutInflater.from(context);
+        this.context = context;
     }
 
     @Override

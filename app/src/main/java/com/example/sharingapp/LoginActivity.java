@@ -38,7 +38,7 @@ public class LoginActivity extends AppCompatActivity {
         email_tv.setVisibility(View.GONE);
 
         context = getApplicationContext();
-        user_list_controller.loadUsers(context);
+        user_list_controller.getRemoteUsers();
     }
 
     public void login(View view) {
@@ -63,7 +63,7 @@ public class LoginActivity extends AppCompatActivity {
             UserController user_controller = new UserController(user);
             user_id = user_controller.getId();
 
-            boolean success = user_list_controller.addUser(user, context);
+            boolean success = user_list_controller.addUser(user);
             if (!success){
                 return;
             }
@@ -76,8 +76,15 @@ public class LoginActivity extends AppCompatActivity {
         // Either way, start MainActivity
         final Intent intent = new Intent(this, MainActivity.class);
         intent.putExtra("user_id", user_id);
-        Toast.makeText(context, "Welcome!", Toast.LENGTH_SHORT).show();
-        startActivity(intent);
+
+        // Delay launch of MainActivity to allow server enough time to process request
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(context, "Welcome!", Toast.LENGTH_SHORT).show();
+                startActivity(intent);
+            }
+        }, 750);
     }
 
     public boolean validateInput(){

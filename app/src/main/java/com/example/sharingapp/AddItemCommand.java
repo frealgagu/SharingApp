@@ -1,25 +1,32 @@
 package com.example.sharingapp;
 
-import android.content.Context;
+import java.util.concurrent.ExecutionException;
 
 /**
  * Command to add an item
  */
 public class AddItemCommand extends Command{
 
-    private ItemList item_list;
     private Item item;
-    private Context context;
 
-    public AddItemCommand(ItemList item_list, Item item, Context context) {
-        this.item_list = item_list;
+    public AddItemCommand(Item item) {
         this.item = item;
-        this.context = context;
     }
 
-    // Save the item locally
+    // Save the item remotely to server
     public void execute(){
-        item_list.addItem(item);
-        super.setIsExecuted(item_list.saveItems(context));
+        ElasticSearchManager.AddItemTask add_item_task = new ElasticSearchManager.AddItemTask();
+        add_item_task.execute(item);
+
+        // use get() to access the return of AddItemTask. i.e. AddItemTask returns a Boolean to
+        // indicate if the item was successfully saved to the remote server
+        try {
+            if(add_item_task.get()) {
+                super.setIsExecuted(true);
+            }
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+            super.setIsExecuted(false);
+        }
     }
 }

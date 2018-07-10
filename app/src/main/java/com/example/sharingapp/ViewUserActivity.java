@@ -1,6 +1,5 @@
 package com.example.sharingapp;
 
-import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -22,8 +21,7 @@ public class ViewUserActivity extends AppCompatActivity {
         TextView username = (TextView) findViewById(R.id.username_right_tv);
         TextView email = (TextView) findViewById(R.id.email_right_tv);
 
-        Context context = getApplicationContext();
-        user_list_controller.loadUsers(context);
+        user_list_controller.getRemoteUsers();
 
         User user = user_list_controller.getUserByUsername(username_str);
         UserController user_controller = new UserController(user);

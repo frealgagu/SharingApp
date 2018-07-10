@@ -21,8 +21,8 @@ public class ItemActivityAdapter extends ArrayAdapter<Item> {
 
     public ItemActivityAdapter(Context context, ArrayList<Item> items) {
         super(context, 0, items);
-        this.context = context;
         this.inflater = LayoutInflater.from(context);
+        this.context = context;
     }
 
     @Override

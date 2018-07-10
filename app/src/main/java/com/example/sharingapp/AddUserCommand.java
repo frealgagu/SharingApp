@@ -1,25 +1,32 @@
 package com.example.sharingapp;
 
-import android.content.Context;
+import java.util.concurrent.ExecutionException;
 
 /**
- * Command to add a user
+ * Command to add user
  */
 public class AddUserCommand extends Command {
 
-    private UserList user_list;
     private User user;
-    private Context context;
 
-    public AddUserCommand (UserList user_list, User user, Context context) {
-        this.user_list = user_list;
+    public AddUserCommand (User user) {
         this.user = user;
-        this.context = context;
     }
 
-    // Save the user locally
+    // Save the user remotely to server
     public void execute() {
-        user_list.addUser(user);
-        super.setIsExecuted(user_list.saveUsers(context));
+        ElasticSearchManager.AddUserTask add_user_task = new ElasticSearchManager.AddUserTask();
+        add_user_task.execute(user);
+
+        // use get() to access the return of AddUserTask. i.e. AddUserTask returns a Boolean to
+        // indicate if the user was successfully saved to the remote server
+        try {
+            if(add_user_task.get()) {
+                super.setIsExecuted(true);
+            }
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+            super.setIsExecuted(false);
+        }
     }
 }

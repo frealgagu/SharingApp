@@ -1,7 +1,5 @@
 package com.example.sharingapp;
 
-import android.content.Context;
-
 import java.util.ArrayList;
 
 /**
@@ -28,26 +26,30 @@ public class ItemListController {
         return item_list.getMyItems(user_id);
     }
 
-    public boolean addItem(Item item, Context context){
-        AddItemCommand add_item_command = new AddItemCommand(item_list, item, context);
+    public boolean addItem(Item item){
+        AddItemCommand add_item_command = new AddItemCommand(item);
         add_item_command.execute();
         return add_item_command.isExecuted();
     }
 
-    public boolean deleteItem(Item item, Context context) {
-        DeleteItemCommand delete_item_command = new DeleteItemCommand(item_list, item, context);
+    public boolean deleteItem(Item item) {
+        DeleteItemCommand delete_item_command = new DeleteItemCommand(item);
         delete_item_command.execute();
         return delete_item_command.isExecuted();
     }
 
-    public boolean editItem(Item item, Item updated_item, Context context){
-        EditItemCommand edit_item_command = new EditItemCommand(item_list, item, updated_item, context);
+    public boolean editItem(Item item, Item updated_item){
+        EditItemCommand edit_item_command = new EditItemCommand(item, updated_item);
         edit_item_command.execute();
         return edit_item_command.isExecuted();
     }
 
     public Item getItem(int index) {
         return item_list.getItem(index);
+    }
+
+    public boolean hasItem(Item item) {
+        return item_list.hasItem(item);
     }
 
     public int getIndex(Item item) {
@@ -74,15 +76,15 @@ public class ItemListController {
         return item_list.getItemById(id);
     }
 
-    public void loadItems(Context context) {
-        item_list.loadItems(context);
-    }
-
     public void addObserver(Observer observer) {
         item_list.addObserver(observer);
     }
 
     public void removeObserver(Observer observer) {
         item_list.removeObserver(observer);
+    }
+
+    public void getRemoteItems(){
+        item_list.getRemoteItems();
     }
 }

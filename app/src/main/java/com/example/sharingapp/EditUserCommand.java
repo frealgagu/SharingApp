@@ -1,28 +1,38 @@
 package com.example.sharingapp;
 
-import android.content.Context;
+import java.util.concurrent.ExecutionException;
 
 /**
  * Command used to edit pre-existing user
  */
 public class EditUserCommand extends Command {
 
-    private UserList user_list;
     private User old_user;
     private User new_user;
-    private Context context;
 
-    public EditUserCommand (UserList user_list, User old_user, User new_user, Context context) {
-        this.user_list = user_list;
+    public EditUserCommand (User old_user, User new_user){
         this.old_user = old_user;
         this.new_user = new_user;
-        this.context = context;
     }
 
-    // Delete the old user locally, save the new user locally
+    // Delete the old user remotely, save the new user remotely to server
     public void execute() {
-        user_list.deleteUser(old_user);
-        user_list.addUser(new_user);
-        super.setIsExecuted(user_list.saveUsers(context));
+        ElasticSearchManager.RemoveUserTask remove_user_task = new ElasticSearchManager.RemoveUserTask();
+        remove_user_task.execute(old_user);
+
+        ElasticSearchManager.AddUserTask add_user_task = new ElasticSearchManager.AddUserTask();
+        add_user_task.execute(new_user);
+
+        // use get() to access the return of AddUserTask/RemoveUserTask.
+        // i.e. AddUserTask/RemoveUserTask returns a Boolean to indicate if the user was successfully
+        // deleted/saved to the remote server
+        try {
+            if(add_user_task.get() && remove_user_task.get()) {
+                super.setIsExecuted(true);
+            }
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+            super.setIsExecuted(false);
+        }
     }
 }

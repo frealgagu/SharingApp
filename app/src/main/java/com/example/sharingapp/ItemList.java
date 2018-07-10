@@ -1,18 +1,7 @@
 package com.example.sharingapp;
 
-import android.content.Context;
-
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
 
 /**
  * ItemList class
@@ -20,7 +9,6 @@ import java.util.ArrayList;
 public class ItemList extends Observable {
 
     private static ArrayList<Item> items;
-    private String FILENAME = "items.sav";
 
     public ItemList() {
         items = new ArrayList<Item>();
@@ -47,6 +35,15 @@ public class ItemList extends Observable {
 
     public Item getItem(int index) {
         return items.get(index);
+    }
+
+    public boolean hasItem(Item item) {
+        for (Item i : items) {
+            if (item.getId().equals(i.getId())) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public int getIndex(Item item) {
@@ -119,39 +116,15 @@ public class ItemList extends Observable {
         return null;
     }
 
-    public void loadItems(Context context) {
+    public void getRemoteItems(){
+        ElasticSearchManager.GetItemListTask get_item_list_task = new ElasticSearchManager.GetItemListTask();
+        get_item_list_task.execute();
 
         try {
-            FileInputStream fis = context.openFileInput(FILENAME);
-            InputStreamReader isr = new InputStreamReader(fis);
-            Gson gson = new Gson();
-            Type listType = new TypeToken<ArrayList<Item>>() {
-            }.getType();
-            items = gson.fromJson(isr, listType); // temporary
-            fis.close();
-        } catch (FileNotFoundException e) {
-            items = new ArrayList<Item>();
-        } catch (IOException e) {
-            items = new ArrayList<Item>();
+            items = get_item_list_task.get();
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
         }
         notifyObservers();
-    }
-
-    public boolean saveItems(Context context) {
-        try {
-            FileOutputStream fos = context.openFileOutput(FILENAME, 0);
-            OutputStreamWriter osw = new OutputStreamWriter(fos);
-            Gson gson = new Gson();
-            gson.toJson(items, osw);
-            osw.flush();
-            fos.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-            return false;
-        } catch (IOException e) {
-            e.printStackTrace();
-            return false;
-        }
-        return true;
     }
 }

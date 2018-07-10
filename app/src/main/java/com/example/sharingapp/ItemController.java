@@ -22,6 +22,10 @@ public class ItemController {
         item.setId();
     }
 
+    public void updateId(String id){
+       item.updateId(id);
+    }
+
     public void setTitle(String title) {
         item.setTitle(title);
     }

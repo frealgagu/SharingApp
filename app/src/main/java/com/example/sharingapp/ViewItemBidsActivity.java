@@ -50,8 +50,8 @@ public class ViewItemBidsActivity extends AppCompatActivity implements Observer 
         item_bid_list = bid_list_controller.getItemBids(item_id);
 
         item_list_controller.addObserver(this);
-        item_list_controller.loadItems(context);
-        user_list_controller.loadUsers(context);
+        item_list_controller.getRemoteItems();
+        user_list_controller.getRemoteUsers();
     }
 
     public void acceptBid(View view) {
@@ -83,7 +83,7 @@ public class ViewItemBidsActivity extends AppCompatActivity implements Observer 
         updated_item_controller.setStatus(status);
         updated_item_controller.setBorrower(borrower);
 
-        boolean success = item_list_controller.editItem(item, updated_item, context);
+        boolean success = item_list_controller.editItem(item, updated_item);
         if (!success){
             return;
         }
@@ -100,11 +100,18 @@ public class ViewItemBidsActivity extends AppCompatActivity implements Observer 
         // End ViewItemBidsActivity
         final Intent intent = new Intent(this, MainActivity.class);
         intent.putExtra("user_id", user_id);
-        Toast.makeText(context, "Bid accepted.", Toast.LENGTH_SHORT).show();
-        startActivity(intent);
+
+        // Delay launch of MainActivity to allow server enough time to process request
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(context, "Bid accepted.", Toast.LENGTH_SHORT).show();
+                startActivity(intent);
+            }
+        }, 750);
     }
 
-    public void declineBid(View view) {
+    public void declineBid(View view){
         int pos = item_bids.getPositionForView(view);
 
         Bid bid = adapter.getItem(pos);
@@ -125,7 +132,7 @@ public class ViewItemBidsActivity extends AppCompatActivity implements Observer 
 
         // Delete selected bid.
         Boolean success = bid_list_controller.removeBid(bid, context);
-        if (!success) {
+        if (!success){
             return;
         }
 
@@ -141,15 +148,15 @@ public class ViewItemBidsActivity extends AppCompatActivity implements Observer 
         updated_item_controller.setDimensions(length, width, height);
         updated_item_controller.setStatus(status);
 
-        success = item_list_controller.editItem(item, updated_item, context);
-        if (!success) {
+        success = item_list_controller.editItem(item, updated_item);
+        if (!success){
             return;
         }
 
         item_list_controller.removeObserver(this);
         bid_list_controller.removeObserver(this);
 
-        if (status.equals("Available")) { // No bids remain
+        if (status.equals("Available")){ // No bids remain
             Toast.makeText(context, "All bids declined.", Toast.LENGTH_SHORT).show();
 
         } else { // Some bids remain
@@ -159,7 +166,15 @@ public class ViewItemBidsActivity extends AppCompatActivity implements Observer 
         // End ViewItemBidsActivity
         final Intent intent = new Intent(this, MainActivity.class);
         intent.putExtra("user_id", user_id);
-        startActivity(intent);
+
+        // Delay launch of MainActivity to allow server enough time to process request
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                startActivity(intent);
+            }
+        }, 750);
+
     }
 
     public void declineAllBids(View view){
@@ -182,7 +197,7 @@ public class ViewItemBidsActivity extends AppCompatActivity implements Observer 
         updated_item_controller.setDimensions(length, width, height);
         updated_item_controller.setStatus(status);
 
-        boolean success = item_list_controller.editItem(item, updated_item, context);
+        boolean success = item_list_controller.editItem(item, updated_item);
         if (!success){
             return;
         }
@@ -199,8 +214,15 @@ public class ViewItemBidsActivity extends AppCompatActivity implements Observer 
         // End ViewItemBidsActivity
         final Intent intent = new Intent(this, MainActivity.class);
         intent.putExtra("user_id", user_id);
-        Toast.makeText(context, "All bids declined.", Toast.LENGTH_SHORT).show();
-        startActivity(intent);
+
+        // Delay launch of MainActivity to allow server enough time to process request
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(context, "All bids declined.", Toast.LENGTH_SHORT).show();
+                startActivity(intent);
+            }
+        }, 750);
     }
 
     /**

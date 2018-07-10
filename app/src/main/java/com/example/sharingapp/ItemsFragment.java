@@ -14,15 +14,15 @@ import android.widget.ListView;
 import java.util.ArrayList;
 
 /**
- * Superclass of AvailableItemsFragment, BorrowedItemsFragment, BiddedItemsFragment and AllItemsFragment
+ * Superclass of AvailableItemsFragment, BorrowedItemsFragment and AllItemsFragment
  */
 public abstract class ItemsFragment extends Fragment implements Observer {
 
     private ItemList item_list = new ItemList();
 
     ItemListController item_list_controller = new ItemListController(item_list);
-    View rootView;
     String user_id;
+    View rootView;
 
     private ListView list_view;
     private ArrayAdapter<Item> adapter;
@@ -35,9 +35,9 @@ public abstract class ItemsFragment extends Fragment implements Observer {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        this.context = getContext();
+        context = getContext();
 
-        item_list_controller.loadItems(context); // Call to update() suppressed
+        item_list_controller.getRemoteItems(); // Call to update() suppressed
         update = true; // Future calls to update() permitted
 
         this.inflater = inflater;
@@ -59,7 +59,7 @@ public abstract class ItemsFragment extends Fragment implements Observer {
     public void loadItems(Fragment fragment){
         this.fragment = fragment;
         item_list_controller.addObserver(this);
-        item_list_controller.loadItems(context);
+        item_list_controller.getRemoteItems();
     }
 
     public void setFragmentOnItemLongClickListener(){
@@ -84,8 +84,7 @@ public abstract class ItemsFragment extends Fragment implements Observer {
     }
 
     /**
-     * filterItems is implemented independently by AvailableItemsFragment, BorrowedItemsFragment
-     * BiddedItemsFragment and AllItemsFragment
+     * filterItems is implemented independently by AvailableItemsFragment, BorrowedItemsFragment and AllItemsFragment
      * @return selected_items
      */
     public abstract ArrayList<Item> filterItems();

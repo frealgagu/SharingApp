@@ -1,7 +1,5 @@
 package com.example.sharingapp;
 
-import android.content.Context;
-
 import java.util.ArrayList;
 
 /**
@@ -23,14 +21,14 @@ public class UserListController {
         return user_list.getUsers();
     }
 
-    public boolean addUser(User user, Context context) {
-        AddUserCommand add_user_command = new AddUserCommand(user_list, user, context);
+    public boolean addUser(User user) {
+        AddUserCommand add_user_command = new AddUserCommand(user);
         add_user_command.execute();
         return add_user_command.isExecuted();
     }
 
-    public boolean editUser(User user, User updated_user, Context context){
-        EditUserCommand edit_user_command = new EditUserCommand(user_list, user, updated_user, context);
+    public boolean editUser(User user, User updated_user){
+        EditUserCommand edit_user_command = new EditUserCommand(user, updated_user);
         edit_user_command.execute();
         return edit_user_command.isExecuted();
     }
@@ -64,15 +62,15 @@ public class UserListController {
         return user_list.getUserIdByUsername(username);
     }
 
-    public void loadUsers(Context context) {
-        user_list.loadUsers(context);
-    }
-
     public void addObserver(Observer observer) {
         user_list.addObserver(observer);
     }
 
     public void removeObserver(Observer observer) {
        user_list.removeObserver(observer);
+    }
+
+    public void getRemoteUsers(){
+        user_list.getRemoteUsers();
     }
 }

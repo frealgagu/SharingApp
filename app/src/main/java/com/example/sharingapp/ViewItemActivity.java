@@ -86,13 +86,13 @@ public class ViewItemActivity extends AppCompatActivity implements Observer {
         context = getApplicationContext();
 
         on_create_update = false; // Suppress first call to update()
-        user_list_controller.loadUsers(context);
+        user_list_controller.getRemoteUsers();
 
         on_create_update = true; // First call to update occurs now
         bid_list_controller.loadBids(context);
         bid_list_controller.addObserver(this);
         item_list_controller.addObserver(this);
-        item_list_controller.loadItems(context);
+        item_list_controller.getRemoteItems();
 
         on_create_update = false; // Suppress any further calls to update()
     }
@@ -114,7 +114,7 @@ public class ViewItemActivity extends AppCompatActivity implements Observer {
         width_str = width_tv.getText().toString();
         height_str = height_tv.getText().toString();
 
-        if(!validateInput()){
+        if(!validateInput()){ // Current bid amount must be higher than the previous bid
             return;
         }
 
@@ -138,7 +138,7 @@ public class ViewItemActivity extends AppCompatActivity implements Observer {
         updated_item_controller.setStatus(status_str);
         updated_item_controller.setDimensions(length_str, width_str, height_str);
 
-        success = item_list_controller.editItem(item, updated_item, context);
+        success = item_list_controller.editItem(item, updated_item);
         if (!success){
             return;
         }
@@ -149,8 +149,16 @@ public class ViewItemActivity extends AppCompatActivity implements Observer {
 
         final Intent intent = new Intent(this, SearchActivity.class);
         intent.putExtra("user_id", user_id);
-        Toast.makeText(context, "Bid placed.", Toast.LENGTH_SHORT).show();
-        startActivity(intent);
+
+        // Delay launch of SearchActivity to allow server enough time to process request
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(context, "Bid placed.", Toast.LENGTH_SHORT).show();
+                startActivity(intent);
+            }
+        }, 750);
+
     }
 
     public void update() {
@@ -212,7 +220,7 @@ public class ViewItemActivity extends AppCompatActivity implements Observer {
         updated_item_controller.setDimensions(length_str, width_str, height_str);
         updated_item_controller.setStatus(status);
 
-        boolean success = item_list_controller.editItem(item, updated_item, context);
+        boolean success = item_list_controller.editItem(item, updated_item);
         if (!success){
             return;
         }
@@ -224,8 +232,14 @@ public class ViewItemActivity extends AppCompatActivity implements Observer {
         final Intent intent = new Intent(this, MainActivity.class);
         intent.putExtra("user_id", user_id);
 
-        Toast.makeText(context, "Item returned.", Toast.LENGTH_SHORT).show();
-        startActivity(intent);
+        // Delay launch of MainActivity to allow server enough time to process request
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(context, "Item returned.", Toast.LENGTH_SHORT).show();
+                startActivity(intent);
+            }
+        }, 750);
     }
 
     public boolean validateInput(){
