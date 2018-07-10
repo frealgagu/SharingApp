@@ -17,6 +17,7 @@ public class EditUserCommand extends Command {
     }
 
     // Delete the old user remotely, save the new user remotely to server
+    @SuppressWarnings("Duplicates")
     public void execute() {
         ElasticSearchManager.RemoveUserTask remove_user_task = new ElasticSearchManager.RemoveUserTask();
         remove_user_task.execute(old_user);

@@ -80,8 +80,8 @@ public class ViewItemActivity extends AppCompatActivity implements Observer {
         return_item_button = (Button) findViewById(R.id.return_item_button);
 
         Intent intent = getIntent(); // Get intent from BorrowedItemsActivity/SearchActivity
-        item_id = intent.getStringExtra("item_id");
-        user_id = intent.getStringExtra("user_id");
+        item_id = intent.getStringExtra(Constants.ITEM_ID);
+        user_id = intent.getStringExtra(Constants.USER_ID);
 
         context = getApplicationContext();
 
@@ -100,7 +100,7 @@ public class ViewItemActivity extends AppCompatActivity implements Observer {
     @Override
     public void onBackPressed() {
         Intent borrow_intent = new Intent(this, BorrowedItemsActivity.class);
-        borrow_intent.putExtra("user_id", user_id);
+        borrow_intent.putExtra(Constants.USER_ID, user_id);
         startActivity(borrow_intent);
     }
 
@@ -148,7 +148,7 @@ public class ViewItemActivity extends AppCompatActivity implements Observer {
         bid_list_controller.removeObserver(this);
 
         final Intent intent = new Intent(this, SearchActivity.class);
-        intent.putExtra("user_id", user_id);
+        intent.putExtra(Constants.USER_ID, user_id);
 
         // Delay launch of SearchActivity to allow server enough time to process request
         new Handler().postDelayed(new Runnable() {
@@ -230,7 +230,7 @@ public class ViewItemActivity extends AppCompatActivity implements Observer {
         bid_list_controller.removeObserver(this);
 
         final Intent intent = new Intent(this, MainActivity.class);
-        intent.putExtra("user_id", user_id);
+        intent.putExtra(Constants.USER_ID, user_id);
 
         // Delay launch of MainActivity to allow server enough time to process request
         new Handler().postDelayed(new Runnable() {

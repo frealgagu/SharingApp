@@ -11,16 +11,16 @@ import android.widget.ListView;
 
 public class BorrowedItemsActivity extends AppCompatActivity implements Observer {
 
-    private ItemList item_list = new ItemList();
-    private ItemListController item_list_controller = new ItemListController(item_list);
+    private ItemList itemList = new ItemList();
+    private ItemListController itemListController = new ItemListController(itemList);
 
-    private UserList user_list = new UserList();
-    private UserListController user_list_controller = new UserListController(user_list);
+    private UserList userList = new UserList();
+    private UserListController userListController = new UserListController(userList);
 
-    private ListView borrowed_items;
+    private ListView borrowedItems;
     private ArrayAdapter<Item> adapter;
     private Context context;
-    private String user_id;
+    private String userId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,19 +28,19 @@ public class BorrowedItemsActivity extends AppCompatActivity implements Observer
         setContentView(R.layout.activity_my_borrowed_items);
 
         Intent intent = getIntent(); // Get intent from MainActivity
-        user_id = intent.getStringExtra("user_id");
+        userId = intent.getStringExtra(Constants.USER_ID);
 
         context = getApplicationContext();
 
-        user_list_controller.getRemoteUsers();
-        String username = user_list_controller.getUsernameByUserId(user_id);
+        userListController.getRemoteUsers();
+        String username = userListController.getUsernameByUserId(userId);
 
-        item_list_controller.addObserver(this);
-        item_list_controller.getRemoteItems();
-        item_list_controller.setItems(item_list_controller.getBorrowedItemsByUsername(username));
+        itemListController.addObserver(this);
+        itemListController.getRemoteItems();
+        itemListController.setItems(itemListController.getBorrowedItemsByUsername(username));
 
         // When an item is long clicked, this starts ViewItemActivity
-        borrowed_items.setOnItemLongClickListener(new android.widget.AdapterView.OnItemLongClickListener() {
+        borrowedItems.setOnItemLongClickListener(new android.widget.AdapterView.OnItemLongClickListener() {
 
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int pos, long id) {
@@ -48,11 +48,11 @@ public class BorrowedItemsActivity extends AppCompatActivity implements Observer
                 Item item = adapter.getItem(pos);
                 String item_id = item.getId();
 
-                item_list_controller.removeObserver(BorrowedItemsActivity.this);
+                itemListController.removeObserver(BorrowedItemsActivity.this);
 
                 Intent intent = new Intent(context, ViewItemActivity.class);
-                intent.putExtra("user_id", user_id);
-                intent.putExtra("item_id", item_id);
+                intent.putExtra(Constants.USER_ID, userId);
+                intent.putExtra(Constants.ITEM_ID, item_id);
                 startActivity(intent);
 
                 return true;
@@ -63,7 +63,7 @@ public class BorrowedItemsActivity extends AppCompatActivity implements Observer
     @Override
     public void onBackPressed() {
         Intent main_intent = new Intent(this, MainActivity.class);
-        main_intent.putExtra("user_id", user_id);
+        main_intent.putExtra(Constants.USER_ID, userId);
         startActivity(main_intent);
     }
 
@@ -71,9 +71,9 @@ public class BorrowedItemsActivity extends AppCompatActivity implements Observer
      * Update the view
      */
     public void update(){
-        borrowed_items = (ListView) findViewById(R.id.borrowed_items);
-        adapter = new ItemActivityAdapter(this, item_list_controller.getItems());
-        borrowed_items.setAdapter(adapter);
+        borrowedItems = (ListView) findViewById(R.id.borrowed_items);
+        adapter = new ItemActivityAdapter(this, itemListController.getItems());
+        borrowedItems.setAdapter(adapter);
         adapter.notifyDataSetChanged();
     }
 }

@@ -23,9 +23,9 @@ public class AddItemActivity extends AppCompatActivity {
     private EditText length;
     private EditText width;
     private EditText height;
-    private EditText min_bid;
+    private EditText minBid;
 
-    private String user_id;
+    private String userId;
     private ImageView photo;
     private Bitmap image;
     private int REQUEST_CODE = 1;
@@ -35,13 +35,13 @@ public class AddItemActivity extends AppCompatActivity {
 
     private Context context;
 
-    private String title_str;
-    private String maker_str;
-    private String description_str;
-    private String length_str;
-    private String width_str;
-    private String height_str;
-    private String min_bid_str;
+    private String titleString;
+    private String makerString;
+    private String descriptionString;
+    private String lengthString;
+    private String widthString;
+    private String heightString;
+    private String minBidString;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +50,7 @@ public class AddItemActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_item);
 
         Intent intent = getIntent(); // Get intent from MainActivity
-        user_id = intent.getStringExtra("user_id");
+        userId = intent.getStringExtra(Constants.USER_ID);
 
         title = (EditText) findViewById(R.id.title);
         maker = (EditText) findViewById(R.id.maker);
@@ -59,7 +59,7 @@ public class AddItemActivity extends AppCompatActivity {
         width = (EditText) findViewById(R.id.width);
         height = (EditText) findViewById(R.id.height);
         photo = (ImageView) findViewById(R.id.image_view);
-        min_bid = (EditText) findViewById(R.id.minimum_bid);
+        minBid = (EditText) findViewById(R.id.minimum_bid);
 
         photo.setImageResource(android.R.drawable.ic_menu_gallery);
 
@@ -69,21 +69,21 @@ public class AddItemActivity extends AppCompatActivity {
 
     public void saveItem (View view) {
 
-        title_str = title.getText().toString();
-        maker_str = maker.getText().toString();
-        description_str = description.getText().toString();
-        length_str = length.getText().toString();
-        width_str = width.getText().toString();
-        height_str = height.getText().toString();
-        min_bid_str = min_bid.getText().toString();
+        titleString = title.getText().toString();
+        makerString = maker.getText().toString();
+        descriptionString = description.getText().toString();
+        lengthString = length.getText().toString();
+        widthString = width.getText().toString();
+        heightString = height.getText().toString();
+        minBidString = minBid.getText().toString();
 
         if(!validateInput()){
             return;
         }
 
-        Item item = new Item(title_str, maker_str, description_str, user_id, min_bid_str, image, null);
+        Item item = new Item(titleString, makerString, descriptionString, userId, minBidString, image, null);
         ItemController item_controller = new ItemController(item);
-        item_controller.setDimensions(length_str, width_str, height_str);
+        item_controller.setDimensions(lengthString, widthString, heightString);
 
         boolean success = item_list_controller.addItem(item);
         if (!success){
@@ -92,7 +92,7 @@ public class AddItemActivity extends AppCompatActivity {
 
         // End AddItemActivity
         final Intent intent = new Intent(this, MainActivity.class);
-        intent.putExtra("user_id", user_id);
+        intent.putExtra(Constants.USER_ID, userId);
 
         // Delay launch of new activity to allow server more time to process request
         new Handler().postDelayed(new Runnable() {
@@ -127,44 +127,45 @@ public class AddItemActivity extends AppCompatActivity {
         Toast.makeText(context, "Photo added.", Toast.LENGTH_SHORT).show();
     }
 
+    @SuppressWarnings("Duplicates")
     private boolean validateInput() {
-        if (title_str.equals("")) {
+        if (titleString.equals("")) {
             title.setError("Empty field!");
             return false;
         }
 
-        if (maker_str.equals("")) {
+        if (makerString.equals("")) {
             maker.setError("Empty field!");
             return false;
         }
 
-        if (description_str.equals("")) {
+        if (descriptionString.equals("")) {
             description.setError("Empty field!");
             return false;
         }
 
-        if (length_str.equals("")) {
+        if (lengthString.equals("")) {
             length.setError("Empty field!");
             return false;
         }
 
-        if (width_str.equals("")) {
+        if (widthString.equals("")) {
             width.setError("Empty field!");
             return false;
         }
 
-        if (height_str.equals("")) {
+        if (heightString.equals("")) {
             height.setError("Empty field!");
             return false;
         }
 
-        if (min_bid_str.equals("")) {
-            min_bid.setError("Empty field!");
+        if (minBidString.equals("")) {
+            minBid.setError("Empty field!");
             return false;
         }
 
-        if (Float.valueOf(min_bid_str) <= 0) {
-            min_bid.setError("Starting bid must be above 0!");
+        if (Float.valueOf(minBidString) <= 0) {
+            minBid.setError("Starting bid must be above 0!");
             return false;
         }
         return true;

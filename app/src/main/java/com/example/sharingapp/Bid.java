@@ -8,50 +8,50 @@ import java.util.UUID;
 @SuppressWarnings("WeakerAccess")
 public class Bid extends Observable {
 
-    private String item_id;
-    private String bid_id;
-    private Float bid_amount;
-    private String bidder_username;
+    private String itemId;
+    private String bidId;
+    private Float bidAmount;
+    private String bidderUsername;
 
-    public Bid(String item_id, Float bid_amount, String bidder_username) {
-        this.item_id = item_id;
-        this.bid_amount = bid_amount;
-        this.bidder_username = bidder_username;
+    public Bid(String itemId, Float bidAmount, String bidderUsername) {
+        this.itemId = itemId;
+        this.bidAmount = bidAmount;
+        this.bidderUsername = bidderUsername;
         setBidId();
     }
 
     public String getItemId() {
-        return this.item_id;
+        return this.itemId;
     }
 
     public void setItemId(String item_id) {
-        this.item_id = item_id;
+        this.itemId = item_id;
     }
 
     public String getBidId(){
-        return this.bid_id;
+        return this.bidId;
     }
 
     public void setBidId() {
-        this.bid_id = UUID.randomUUID().toString();
+        this.bidId = UUID.randomUUID().toString();
         notifyObservers();
     }
 
     public void setBidAmount(Float bid_amount) {
-        this.bid_amount = bid_amount;
+        this.bidAmount = bid_amount;
         notifyObservers();
     }
 
     public Float getBidAmount() {
-        return bid_amount;
+        return bidAmount;
     }
 
     public void setBidderUsername(String bidder_username) {
-        this.bidder_username = bidder_username;
+        this.bidderUsername = bidder_username;
         notifyObservers();
     }
 
     public String getBidderUsername() {
-        return bidder_username;
+        return bidderUsername;
     }
 }

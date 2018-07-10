@@ -22,7 +22,7 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
     @Override
     public Fragment getItem(int position) {
         Bundle bundle = new Bundle();
-        bundle.putString("user_id", user_id);
+        bundle.putString(Constants.USER_ID, user_id);
         switch (position) {
             case 0:
                 AllItemsFragment all_items_fragment = new AllItemsFragment();

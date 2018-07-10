@@ -5,6 +5,7 @@ package com.example.sharingapp;
  */
 @SuppressWarnings({"WeakerAccess", "unused"})
 public class BidController {
+
     private Bid bid;
 
     public BidController (Bid bid) {

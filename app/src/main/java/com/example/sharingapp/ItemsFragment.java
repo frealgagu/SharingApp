@@ -54,7 +54,7 @@ public abstract class ItemsFragment extends Fragment implements Observer {
     }
 
     public void setUserId(Bundle b) {
-        this.user_id = b.getString("user_id", user_id);
+        this.user_id = b.getString(Constants.USER_ID, user_id);
     }
 
     public void loadItems(Fragment fragment){
@@ -75,7 +75,7 @@ public abstract class ItemsFragment extends Fragment implements Observer {
                 if (meta_pos >= 0) {
 
                     Intent edit = new Intent(context, EditItemActivity.class);
-                    edit.putExtra("user_id", user_id);
+                    edit.putExtra(Constants.USER_ID, user_id);
                     edit.putExtra("position", meta_pos);
                     startActivity(edit);
                 }

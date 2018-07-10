@@ -7,19 +7,19 @@ package com.example.sharingapp;
 @SuppressWarnings("WeakerAccess")
 public abstract class Command {
 
-    private boolean is_executed;
+    private boolean isExecuted;
 
     public Command(){
-        is_executed = false;
+        isExecuted = false;
     }
 
     public abstract void execute();
 
     public boolean isExecuted(){
-        return is_executed;
+        return isExecuted;
     }
 
-    public void setIsExecuted(boolean is_executed) {
-        this.is_executed = is_executed;
+    public void setIsExecuted(boolean isExecuted) {
+        this.isExecuted = isExecuted;
     }
 }

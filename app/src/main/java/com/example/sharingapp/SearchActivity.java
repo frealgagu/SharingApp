@@ -36,7 +36,7 @@ public class SearchActivity extends AppCompatActivity implements Observer {
         setContentView(R.layout.activity_search);
 
         Intent intent = getIntent(); // Get intent from MainActivity
-        user_id = intent.getStringExtra("user_id");
+        user_id = intent.getStringExtra(Constants.USER_ID);
 
         search_entry = (EditText) findViewById(R.id.search_entry);
 
@@ -56,8 +56,8 @@ public class SearchActivity extends AppCompatActivity implements Observer {
                 String item_id = item.getId();
 
                 Intent intent = new Intent(context, ViewItemActivity.class);
-                intent.putExtra("user_id", user_id);
-                intent.putExtra("item_id", item_id);
+                intent.putExtra(Constants.USER_ID, user_id);
+                intent.putExtra(Constants.ITEM_ID, item_id);
                 startActivity(intent);
 
                 return true;
@@ -76,7 +76,7 @@ public class SearchActivity extends AppCompatActivity implements Observer {
     @Override
     public void onBackPressed() {
         Intent main_intent = new Intent(this, MainActivity.class);
-        main_intent.putExtra("user_id", user_id);
+        main_intent.putExtra(Constants.USER_ID, user_id);
         startActivity(main_intent);
     }
 

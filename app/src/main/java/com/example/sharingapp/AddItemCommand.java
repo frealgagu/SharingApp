@@ -6,7 +6,7 @@ import java.util.concurrent.ExecutionException;
  * Command to add an item
  */
 @SuppressWarnings("WeakerAccess")
-public class AddItemCommand extends Command{
+public class AddItemCommand extends Command {
 
     private Item item;
 
@@ -15,14 +15,15 @@ public class AddItemCommand extends Command{
     }
 
     // Save the item remotely to server
+    @SuppressWarnings("Duplicates")
     public void execute() {
-        ElasticSearchManager.AddItemTask add_item_task = new ElasticSearchManager.AddItemTask();
-        add_item_task.execute(item);
+        ElasticSearchManager.AddItemTask addItemTask = new ElasticSearchManager.AddItemTask();
+        addItemTask.execute(item);
 
         // use get() to access the return of AddItemTask. i.e. AddItemTask returns a Boolean to
         // indicate if the item was successfully saved to the remote server
         try {
-            if(add_item_task.get()) {
+            if(addItemTask.get()) {
                 super.setIsExecuted(true);
             }
         } catch (InterruptedException | ExecutionException e) {

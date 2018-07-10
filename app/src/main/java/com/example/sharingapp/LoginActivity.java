@@ -75,7 +75,7 @@ public class LoginActivity extends AppCompatActivity {
 
         // Either way, start MainActivity
         final Intent intent = new Intent(this, MainActivity.class);
-        intent.putExtra("user_id", user_id);
+        intent.putExtra(Constants.USER_ID, user_id);
 
         // Delay launch of MainActivity to allow server enough time to process request
         new Handler().postDelayed(new Runnable() {

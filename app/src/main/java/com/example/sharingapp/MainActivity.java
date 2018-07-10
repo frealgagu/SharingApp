@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         Intent intent = getIntent(); // from LoginActivity
-        user_id = intent.getStringExtra("user_id");
+        user_id = intent.getStringExtra(Constants.USER_ID);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -56,17 +56,17 @@ public class MainActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.search:
                 Intent search_intent = new Intent(this, SearchActivity.class);
-                search_intent.putExtra("user_id", user_id);
+                search_intent.putExtra(Constants.USER_ID, user_id);
                 startActivity(search_intent);
                 return true;
             case R.id.borrowed_items:
                 Intent borrowed_intent = new Intent(this, BorrowedItemsActivity.class);
-                borrowed_intent.putExtra("user_id", user_id);
+                borrowed_intent.putExtra(Constants.USER_ID, user_id);
                 startActivity(borrowed_intent);
                 return true;
             case R.id.edit_profile:
                 Intent profile_intent = new Intent(this, EditUserActivity.class);
-                profile_intent.putExtra("user_id", user_id);
+                profile_intent.putExtra(Constants.USER_ID, user_id);
                 startActivity(profile_intent);
                 return true;
             case R.id.logout:
@@ -87,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void addItemActivity(View view) {
         Intent intent = new Intent(this, AddItemActivity.class);
-        intent.putExtra("user_id", user_id);
+        intent.putExtra(Constants.USER_ID, user_id);
         startActivity(intent);
     }
 }

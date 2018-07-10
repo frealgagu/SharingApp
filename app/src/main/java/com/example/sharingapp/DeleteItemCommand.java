@@ -15,14 +15,15 @@ public class DeleteItemCommand extends Command {
     }
 
     // Delete the item remotely from server
+    @SuppressWarnings("Duplicates")
     public void execute() {
-        ElasticSearchManager.RemoveItemTask remove_item_task = new ElasticSearchManager.RemoveItemTask();
-        remove_item_task.execute(item);
+        ElasticSearchManager.RemoveItemTask removeItemTask = new ElasticSearchManager.RemoveItemTask();
+        removeItemTask.execute(item);
 
         // use get() to access the return of RemoveItemTask. i.e. RemoveItemTask returns a Boolean to
         // indicate if the item was successfully deleted from the remote server
         try {
-            if(remove_item_task.get()) {
+            if(removeItemTask.get()) {
                 super.setIsExecuted(true);
             }
         } catch (InterruptedException | ExecutionException e) {

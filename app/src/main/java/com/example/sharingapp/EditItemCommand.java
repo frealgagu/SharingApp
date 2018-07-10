@@ -16,6 +16,7 @@ public class EditItemCommand extends Command {
     }
 
     // Delete the old item remotely, save the new item remotely to server
+    @SuppressWarnings("Duplicates")
     public void execute() {
         ElasticSearchManager.RemoveItemTask remove_item_task = new ElasticSearchManager.RemoveItemTask();
         remove_item_task.execute(old_item);

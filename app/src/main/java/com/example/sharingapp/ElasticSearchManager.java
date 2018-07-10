@@ -37,6 +37,7 @@ import io.searchbox.core.SearchResult;
  */
 @SuppressWarnings("WeakerAccess")
 public class ElasticSearchManager {
+
     private static final String SERVER = "http://34.202.206.222:8080";
     private static final String INDEX = "586533040";
     private static final String ITEM_TYPE = "items";
@@ -59,6 +60,7 @@ public class ElasticSearchManager {
             try {
                 SearchResult execute = client.execute(search);
                 if (execute.isSucceeded()) {
+                    //noinspection deprecation
                     items = (ArrayList<Item>) execute.getSourceAsObjectList(Item.class);
                     Log.i("ELASTICSEARCH","Item search was successful");
                 } else {
@@ -149,6 +151,7 @@ public class ElasticSearchManager {
             try {
                 SearchResult execute = client.execute(search);
                 if (execute.isSucceeded()) {
+                    //noinspection deprecation
                     List<User> remote_users = execute.getSourceAsObjectList(User.class);
                     users.addAll(remote_users);
                     Log.i("ELASTICSEARCH","User search was successful");

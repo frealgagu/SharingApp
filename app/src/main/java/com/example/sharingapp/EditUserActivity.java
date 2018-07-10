@@ -35,7 +35,7 @@ public class EditUserActivity extends AppCompatActivity implements Observer {
         setContentView(R.layout.activity_edit_user);
 
         Intent intent = getIntent(); // Get intent from MainActivity
-        user_id = intent.getStringExtra("user_id");
+        user_id = intent.getStringExtra(Constants.USER_ID);
 
         username = (TextView) findViewById(R.id.username);
 
@@ -63,7 +63,7 @@ public class EditUserActivity extends AppCompatActivity implements Observer {
 
         // End EditUserActivity
         final Intent intent = new Intent(this, MainActivity.class);
-        intent.putExtra("user_id", user_id);
+        intent.putExtra(Constants.USER_ID, user_id);
 
         // Delay launch of MainActivity to allow server enough time to process request
         new Handler().postDelayed(new Runnable() {

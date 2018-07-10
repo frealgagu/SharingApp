@@ -40,8 +40,8 @@ public class ViewItemBidsActivity extends AppCompatActivity implements Observer 
         setContentView(R.layout.activity_view_item_bids);
 
         Intent intent = getIntent(); // Get intent from EditItemActivity
-        user_id = intent.getStringExtra("user_id");
-        item_id = intent.getStringExtra("item_id");
+        user_id = intent.getStringExtra(Constants.USER_ID);
+        item_id = intent.getStringExtra(Constants.ITEM_ID);
 
         context = getApplicationContext();
 
@@ -99,7 +99,7 @@ public class ViewItemBidsActivity extends AppCompatActivity implements Observer 
 
         // End ViewItemBidsActivity
         final Intent intent = new Intent(this, MainActivity.class);
-        intent.putExtra("user_id", user_id);
+        intent.putExtra(Constants.USER_ID, user_id);
 
         // Delay launch of MainActivity to allow server enough time to process request
         new Handler().postDelayed(new Runnable() {
@@ -165,7 +165,7 @@ public class ViewItemBidsActivity extends AppCompatActivity implements Observer 
 
         // End ViewItemBidsActivity
         final Intent intent = new Intent(this, MainActivity.class);
-        intent.putExtra("user_id", user_id);
+        intent.putExtra(Constants.USER_ID, user_id);
 
         // Delay launch of MainActivity to allow server enough time to process request
         new Handler().postDelayed(new Runnable() {
@@ -213,7 +213,7 @@ public class ViewItemBidsActivity extends AppCompatActivity implements Observer 
 
         // End ViewItemBidsActivity
         final Intent intent = new Intent(this, MainActivity.class);
-        intent.putExtra("user_id", user_id);
+        intent.putExtra(Constants.USER_ID, user_id);
 
         // Delay launch of MainActivity to allow server enough time to process request
         new Handler().postDelayed(new Runnable() {
