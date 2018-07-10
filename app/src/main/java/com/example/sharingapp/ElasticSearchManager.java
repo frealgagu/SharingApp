@@ -28,11 +28,17 @@ import io.searchbox.core.SearchResult;
  * Where INDEX is replaced with the random number string you generate as per the assignment
  * instructions. Note: item_ids and user_ids are printed to the log (See the Android Monitor)
  * as each user/item is added.
+ *
+ * curl -XDELETE 'http://34.202.206.222:8080/586533040
+ * http://34.202.206.222:8080/586533040/items/item_id
+ * http://34.202.206.222:8080/586533040/users/user_id
+ * http://34.202.206.222:8080/586533040/bids/bid_id
+ *
  */
 
 public class ElasticSearchManager {
     private static final String SERVER = "http://34.202.206.222:8080";
-    private static final String INDEX = "uniqueindex"; // TODO: MUST CHANGE THIS to random number string
+    private static final String INDEX = "586533040";
     private static final String ITEM_TYPE = "items";
     private static final String USER_TYPE = "users";
     private static JestDroidClient client;
